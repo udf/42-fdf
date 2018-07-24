@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/24 15:29:01 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/24 15:40:46 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@
 ** Keycodes (because X11 keycodes don't work on OSX)
 ** mlx uses the codes found in /usr/include/keysymdef.h
 */
-# define KEY_Escape 0xff1b
-# define KEY_q 0x0071
-
+# define KEY_Escape      0xff1b
+# define KEY_q           0x0071
+# define KEY_Left        0xff51
+# define KEY_Up          0xff52
+# define KEY_Right       0xff53
+# define KEY_Down        0xff54
 
 /*
 ** Stores various mlx handles
