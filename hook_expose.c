@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 15:24:30 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/24 15:25:55 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/24 15:47:52 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@ int expose_hook(void *param)
 {
 	(void)param;
 	printf("expose_hook\n");
-	return 1;
+	return 0;
 }

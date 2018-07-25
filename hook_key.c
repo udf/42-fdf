@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 15:24:30 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/24 15:26:10 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/24 15:47:52 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ int key_hook(int key, void *param)
 	printf("key_hook: %d\n", key);
 	if (key == KEY_Escape || key == KEY_q)
 		die(*data, "Quit pressed!");
-	return 1;
+	return 0;
 }
