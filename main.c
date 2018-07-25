@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/25 08:30:28 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/25 21:30:48 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int main(void)
 	mlx_key_hook(data.mlx.win, key_hook, &data);
 	mlx_mouse_hook(data.mlx.win, mouse_hook, &data);
 	mlx_expose_hook(data.mlx.win, expose_hook, &data);
-	mlx_loop_hook(data.mlx.win, loop_hook, &data);
+	mlx_loop_hook(data.mlx.ptr, loop_hook, &data);
 	mlx_loop(data.mlx.ptr);
 	return (0);
 }
