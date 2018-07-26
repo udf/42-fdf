@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 15:25:13 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/26 13:04:26 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/26 23:35:39 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,14 @@ void	die(t_data data, char *msg)
 {
 	if (msg && *msg)
 		ft_putendl_fd(msg, 2);
+	vec_free(&data.draw.verts);
+	vec_free(&data.draw.pts);
+	vec_free(&data.draw.visible_pts);
+	vec_free(&data.draw.lines);
 	if (data.img.ptr)
-	{
-		printf("Destroying image...\n");
 		mlx_destroy_image(data.mlx.ptr, data.img.ptr);
-	}
 	if (data.mlx.win)
-	{
-		printf("Destroying window...\n");
 		mlx_destroy_window(data.mlx.ptr, data.mlx.win);
-	}
-	printf("exiting...\n");
 	exit(0);
 }
 
