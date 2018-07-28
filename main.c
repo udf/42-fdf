@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/28 18:09:23 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/28 18:14:20 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,25 +58,6 @@ char		*read_vert_row(t_draw *draw, size_t y, char **split)
 	return (NULL);
 }
 
-t_ip2d	vert_seek_eq_z(t_draw *draw, t_ip2d start, t_ip2d dir)
-{
-	t_ip2d		end;
-	t_p3d		*verts;
-	float		start_z;
-
-	verts = (t_p3d *)draw->verts.data;
-	end = start;
-	start_z = verts[ip2d_to_i(start, draw->map_w)].z;
-	while (ip2d_in_rect(end, draw->map_w, draw->map_h))
-	{
-		end = ip2d_add(end, dir);
-		if (verts[ip2d_to_i(end, draw->map_w)].z != start_z)
-			break ;
-	}
-	end = ip2d_sub(end, dir);
-	return (end);
-}
-
 void	make_lines(t_draw *draw, t_ip2d start, t_ip2d dir)
 {
 	const size_t w = draw->map_w;
@@ -86,9 +67,9 @@ void	make_lines(t_draw *draw, t_ip2d start, t_ip2d dir)
 
 	while (ip2d_in_rect(ip2d_add(start, dir), w, h))
 	{
-		end = vert_seek_eq_z(draw, start, dir);
-		if (ip2d_eq(start, end) && ip2d_in_rect(end, w, h))
-			end = ip2d_add(end, dir);
+		end = ip2d_add(start, dir);
+		if (!ip2d_in_rect(end, w, h))
+			return ;
 		l = (t_ipair){ip2d_to_i(start, w), ip2d_to_i(end, w)};
 		vec_append(&draw->lines, &l);
 		start = end;
