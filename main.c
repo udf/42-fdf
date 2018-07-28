@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/26 23:46:23 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/28 18:09:23 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,72 +31,127 @@ void set_draw(t_data *data)
 
 	draw = &data->draw;
 	draw->red = make_colour(data->mlx.ptr, &data->img, 0xFF0000);
-	draw->cam.pos.z = 5;
+	draw->cam_pos.z = 15.0f;
+	draw->cam_pos.x = 15.0f;
+	draw->cam_pos.y = 15.0f;
+}
+
+char		*read_vert_row(t_draw *draw, size_t y, char **split)
+{
+	size_t	w;
+	t_p3d	p;
+
+	w = 0;
+	p.y = (float)y;
+	while (*split)
+	{
+		p.z = (float)ft_atoi(*split);
+		p.x = (float)w;
+		vec_append(&draw->verts, &p);
+		w++;
+		split++;
+	}
+	if (!draw->map_w)
+		draw->map_w = w;
+	if (w != draw->map_w || w == 0)
+		return ("Invalid number of heights in map");
+	return (NULL);
+}
+
+t_ip2d	vert_seek_eq_z(t_draw *draw, t_ip2d start, t_ip2d dir)
+{
+	t_ip2d		end;
+	t_p3d		*verts;
+	float		start_z;
+
+	verts = (t_p3d *)draw->verts.data;
+	end = start;
+	start_z = verts[ip2d_to_i(start, draw->map_w)].z;
+	while (ip2d_in_rect(end, draw->map_w, draw->map_h))
+	{
+		end = ip2d_add(end, dir);
+		if (verts[ip2d_to_i(end, draw->map_w)].z != start_z)
+			break ;
+	}
+	end = ip2d_sub(end, dir);
+	return (end);
+}
+
+void	make_lines(t_draw *draw, t_ip2d start, t_ip2d dir)
+{
+	const size_t w = draw->map_w;
+	const size_t h = draw->map_h;
+	t_ip2d end;
+	t_ipair l;
+
+	while (ip2d_in_rect(ip2d_add(start, dir), w, h))
+	{
+		end = vert_seek_eq_z(draw, start, dir);
+		if (ip2d_eq(start, end) && ip2d_in_rect(end, w, h))
+			end = ip2d_add(end, dir);
+		l = (t_ipair){ip2d_to_i(start, w), ip2d_to_i(end, w)};
+		vec_append(&draw->lines, &l);
+		start = end;
+	}
+}
+
+void	make_grid_lines(t_draw *draw)
+{
+	t_ip2d	start;
+	t_ipair v_pair;
+	size_t	i;
+
+	start.x = 0;
+	start.y = 0;
+	while (start.y < (ssize_t)draw->map_h)
+	{
+		make_lines(draw, start, (t_ip2d){1, 0});
+		start.y++;
+	}
+	start.y = 0;
+	while (start.x < (ssize_t)draw->map_w)
+	{
+		make_lines(draw, start, (t_ip2d){0, 1});
+		start.x++;
+	}
+	i = 0;
+	vec_reserve(&draw->enabled_verts, draw->verts.length);
+	while (i < draw->lines.length)
+	{
+		v_pair = ((t_ipair *)draw->lines.data)[i];
+		((int *)draw->enabled_verts.data)[v_pair.a] = 1;
+		((int *)draw->enabled_verts.data)[v_pair.b] = 1;
+		i++;
+	}
 }
 
 char	*load_map(t_draw *draw, char *path)
 {
 	int fd;
-	t_p3d p;
-	t_ipair l;
+	char *line;
+	char **split;
 
 	if ((fd = open(path, O_RDONLY)) < 0)
 		return "Failed to open map file";
-	// TODO: actually read map file;
+	draw->map_h = 0;
+	while (get_next_line(fd, &line) == GNL_SUCCESS)
+	{
+		split = ft_strsplit(line, ' ');
+		free(line);
+		if (!split)
+			return "Failed to read map line";
+		line = read_vert_row(draw, draw->map_h, split);
+		free(split);
+		if (line)
+			return (line);
+		draw->map_h++;
+	}
 	close(fd);
-	draw->verts.type_size = sizeof(t_p3d);
-	draw->lines.type_size = sizeof(t_ipair);
-	draw->pts.type_size = sizeof(t_p2d);
-	draw->visible_pts.type_size = sizeof(int);
-
-	p = (t_p3d){0, 0, 0};
-	vec_append(&draw->verts, &p);
-	p = (t_p3d){1, 0, 0};
-	vec_append(&draw->verts, &p);
-	p = (t_p3d){1, 1, 0};
-	vec_append(&draw->verts, &p);
-	p = (t_p3d){0, 1, 0};
-	vec_append(&draw->verts, &p);
-
-	p = (t_p3d){0, 0, 1};
-	vec_append(&draw->verts, &p);
-	p = (t_p3d){1, 0, 1};
-	vec_append(&draw->verts, &p);
-	p = (t_p3d){1, 1, 1};
-	vec_append(&draw->verts, &p);
-	p = (t_p3d){0, 1, 1};
-	vec_append(&draw->verts, &p);
-
-	l = (t_ipair){0, 1};
-	vec_append(&draw->lines, &l);
-	l = (t_ipair){1, 2};
-	vec_append(&draw->lines, &l);
-	l = (t_ipair){2, 3};
-	vec_append(&draw->lines, &l);
-	l = (t_ipair){3, 0};
-	vec_append(&draw->lines, &l);
-
-	l = (t_ipair){4, 5};
-	vec_append(&draw->lines, &l);
-	l = (t_ipair){5, 6};
-	vec_append(&draw->lines, &l);
-	l = (t_ipair){6, 7};
-	vec_append(&draw->lines, &l);
-	l = (t_ipair){7, 4};
-	vec_append(&draw->lines, &l);
-
-	l = (t_ipair){0, 4};
-	vec_append(&draw->lines, &l);
-	l = (t_ipair){1, 5};
-	vec_append(&draw->lines, &l);
-	l = (t_ipair){2, 6};
-	vec_append(&draw->lines, &l);
-	l = (t_ipair){3, 7};
-	vec_append(&draw->lines, &l);
-
+	if (draw->map_h == 0)
+		return "Error: Map is empty";
 	vec_reserve(&draw->pts, draw->verts.length);
 	vec_reserve(&draw->visible_pts, draw->verts.length);
-
+	make_grid_lines(draw);
 	return (NULL);
 }
 
@@ -111,12 +166,22 @@ void	register_hooks(t_data *data)
 	mlx_loop_hook(data->mlx.ptr, draw, data);
 }
 
+void init_vectors(t_draw *draw)
+{
+	draw->lines.type_size = sizeof(t_ipair);
+	draw->verts.type_size = sizeof(t_p3d);
+	draw->pts.type_size = sizeof(t_p2d);
+	draw->visible_pts.type_size = sizeof(int);
+	draw->enabled_verts.type_size = sizeof(int);
+}
+
 int main(int ac, char **av)
 {
 	t_data	data;
 	char	*err;
 
 	ft_bzero(&data, sizeof(t_data));
+	init_vectors(&data.draw);
 	err = "No map file provided";
 	if (ac <= 1 || (err = load_map(&data.draw, av[1])))
 		die(data, err);

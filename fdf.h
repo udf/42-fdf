@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/26 23:43:45 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/28 17:59:10 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,15 @@ typedef unsigned int t_uint;
 #define PointerMotionMask		(1L<<6)
 
 /*
+** A 2D point but with integers
+*/
+typedef struct	s_ip2d
+{
+	ssize_t		x;
+	ssize_t		y;
+}				t_ip2d;
+
+/*
 ** Stores various mlx handles
 */
 typedef struct	s_mlx
@@ -100,8 +109,11 @@ typedef struct	s_ipair
 */
 typedef struct	s_draw
 {
-	t_v3d		cam;
+	t_p3d		cam_pos;
+	size_t		map_w;
+	size_t		map_h;
 	t_vec		verts;
+	t_vec		enabled_verts;
 	t_vec		lines;
 	t_vec		pts;
 	t_vec		visible_pts;
@@ -151,6 +163,12 @@ unsigned int	swap_endian(unsigned int n);
 t_img			make_img(void *mlx_ptr, int w, int h);
 unsigned int	make_colour(void *mlx_ptr, t_img *img, int colour);
 void			die(t_data data, char *msg);
+
+t_ip2d			ip2d_add(t_ip2d a, t_ip2d b);
+t_ip2d			ip2d_sub(t_ip2d a, t_ip2d b);
+int				ip2d_eq(t_ip2d a, t_ip2d b);
+int				ip2d_in_rect(t_ip2d p, size_t w, size_t h);
+size_t			ip2d_to_i(t_ip2d p, size_t w);
 
 /*
 ** Image drawing

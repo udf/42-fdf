@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 23:42:28 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/26 23:43:52 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/28 18:09:49 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,23 @@ static void	point_clip(t_p2d *p, float w, float h, float m, float im)
 	if (p->x >= 0 && p->x < w && p->y >= 0 && p->y < h)
 		return ;
 	clamped.x = CLAMP(p->x, 0, w - 1.0f);
-	clamped.y = CLAMP(p->y, 0, h - 1.0f);
 	if (isfinite(m))
 	{
 		if (p->x < 0)
-			clamped.y = m * (0 - p->x) + p->y;
+			p->y = m * (0 - p->x) + p->y;
 		else if (p->x > w)
-			clamped.y = m * (w - 1.0f - p->x) + p->y;
+			p->y = m * (w - 1.0f - p->x) + p->y;
 	}
-	*p = clamped;
+	clamped.y = CLAMP(p->y, 0, h - 1.0f);
+	p->x = clamped.x;
 	if (isfinite(im))
 	{
 		if (p->y < 0)
-			clamped.x = im * (0 - p->y) + p->x;
+			p->x = im * (0 - p->y) + p->x;
 		else if (p->y > h)
-			clamped.x = im * (h - 1.0f - p->y) + p->x;
+			p->x = im * (h - 1.0f - p->y) + p->x;
 	}
-	*p = clamped;
+	p->y = clamped.y;
 }
 
 static void	line_clip(t_p2d *a, t_p2d *b, float w, float h)
