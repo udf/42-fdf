@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/28 18:16:57 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/28 19:24:57 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void set_draw(t_data *data)
 	t_draw *draw;
 
 	draw = &data->draw;
+	vec_reserve(&draw->pts, draw->verts.length);
+	vec_reserve(&draw->visible_pts, draw->verts.length);
 	draw->red = make_colour(data->mlx.ptr, &data->img, 0xFF0000);
 	draw->cam_pos.z = 15.0f;
 	draw->cam_pos.x = 15.0f;
@@ -119,8 +121,6 @@ char	*load_map(t_draw *draw, char *path)
 	close(fd);
 	if (draw->map_h == 0)
 		return "Error: Map is empty";
-	vec_reserve(&draw->pts, draw->verts.length);
-	vec_reserve(&draw->visible_pts, draw->verts.length);
 	make_grid_lines(draw);
 	return (NULL);
 }
