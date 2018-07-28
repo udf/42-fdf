@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 15:25:13 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/27 11:55:08 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/28 18:16:19 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	die(t_data data, char *msg)
 	if (msg && *msg)
 		ft_putendl_fd(msg, 2);
 	vec_free(&data.draw.verts);
-	vec_free(&data.draw.enabled_verts);
 	vec_free(&data.draw.pts);
 	vec_free(&data.draw.visible_pts);
 	vec_free(&data.draw.lines);

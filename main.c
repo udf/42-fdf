@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/28 18:14:20 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/28 18:16:57 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ void	make_lines(t_draw *draw, t_ip2d start, t_ip2d dir)
 void	make_grid_lines(t_draw *draw)
 {
 	t_ip2d	start;
-	t_ipair v_pair;
-	size_t	i;
 
 	start.x = 0;
 	start.y = 0;
@@ -94,15 +92,6 @@ void	make_grid_lines(t_draw *draw)
 	{
 		make_lines(draw, start, (t_ip2d){0, 1});
 		start.x++;
-	}
-	i = 0;
-	vec_reserve(&draw->enabled_verts, draw->verts.length);
-	while (i < draw->lines.length)
-	{
-		v_pair = ((t_ipair *)draw->lines.data)[i];
-		((int *)draw->enabled_verts.data)[v_pair.a] = 1;
-		((int *)draw->enabled_verts.data)[v_pair.b] = 1;
-		i++;
 	}
 }
 
@@ -153,7 +142,6 @@ void init_vectors(t_draw *draw)
 	draw->verts.type_size = sizeof(t_p3d);
 	draw->pts.type_size = sizeof(t_p2d);
 	draw->visible_pts.type_size = sizeof(int);
-	draw->enabled_verts.type_size = sizeof(int);
 }
 
 int main(int ac, char **av)
