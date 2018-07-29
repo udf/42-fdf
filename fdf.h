@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/29 05:28:06 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/29 21:00:16 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef unsigned int t_uint;
 # define KEY_Up			0xff52
 # define KEY_Right		0xff53
 # define KEY_Down		0xff54
+# define KEY_Shift		0xffe1
 
 # define MOUSE_Left		1
 # define MOUSE_Mid		2
@@ -86,6 +87,7 @@ typedef struct	s_cfg
 	int			w;
 	int			h;
 	float		zoom_tick;
+	float		zoom_fast;
 }				t_cfg;
 
 /*

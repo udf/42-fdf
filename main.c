@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/29 05:28:01 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/29 20:59:20 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ void set_config(t_data *data)
 
 	cfg = (t_cfg *)(&data->cfg);
 	cfg->w = 900;
-	cfg->h = 900;
-	cfg->zoom_tick = 1.0f;
+	cfg->h = 900
+;	cfg->zoom_tick = 1.0f;
+;	cfg->zoom_fast = 5.0f;
 }
 
 void set_draw(t_data *data)
@@ -35,7 +36,7 @@ void set_draw(t_data *data)
 	vec_reserve(&draw->visible_pts, draw->verts.length);
 	draw->red = make_colour(data->mlx.ptr, &data->img, 0xFF0000);
 
-	draw->dist = 20.0f;
+	draw->dist = 258.0f; // w + h/2
 	draw->pivot = (t_p3d){(float)draw->map_w / 2, (float)draw->map_h / 2, 0};
 	draw->rot.x = -45.0f;
 }
