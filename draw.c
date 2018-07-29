@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/28 19:25:48 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/29 02:35:31 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	draw(void *param)
 	t_p2d	*points;
 	int		*visible_points;
 	t_ipair	*lines;
-	t_mat	cam_to_world;
 	t_mat	world_to_cam;
 	const t_p2d raster_size = {(float)data->cfg.w, (float)data->cfg.h};
 	const t_p2d canvas_size = {1.0f, 1.0f};
@@ -45,16 +44,24 @@ int	draw(void *param)
 	if (data->input.k['e'])
 		data->draw.cam_pos.z += 0.1f;
 
-	printf("cam: %.2f %.2f %.2f\n",
-		data->draw.cam_pos.x, data->draw.cam_pos.y, data->draw.cam_pos.z
+	const float zx_angle = atan2f(data->draw.cam_pos.z - 0, data->draw.cam_pos.x - 0);
+	const float zx_angle_sin = sinf(zx_angle);
+
+	data->draw.up_pos.y = -powf(zx_angle_sin, 8.0f);
+	data->draw.up_pos.z = data->draw.up_pos.y + 1;
+
+	printf("cam: %.2f %.2f %.2f; up: %.2f %.2f %.2f; zx: %.2f\n",
+		data->draw.cam_pos.x, data->draw.cam_pos.y, data->draw.cam_pos.z,
+		data->draw.up_pos.x, data->draw.up_pos.y, data->draw.up_pos.z,
+		zx_angle * (180 / M_PI)
 	);
 
 	i = 0;
 	verts = (t_p3d *)data->draw.verts.data;
 	points = (t_p2d *)data->draw.pts.data;
 	visible_points = (int *)data->draw.visible_pts.data;
-	mat_look_at(cam_to_world, data->draw.cam_pos, (t_p3d){0.0f, 0.0f, 0.0f});
-	mat_inverse(world_to_cam, cam_to_world);
+	mat_look_at(world_to_cam, data->draw.cam_pos, (t_p3d){0.0f, 0.0f, 0.0f}, data->draw.up_pos);
+	mat_inverse(world_to_cam, world_to_cam);
 	while (i < data->draw.verts.length)
 	{
 		visible_points[i] = p3d_project(&points[i], raster_size, canvas_size, verts[i], world_to_cam);

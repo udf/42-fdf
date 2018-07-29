@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/28 18:20:53 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/28 22:01:06 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct	s_ipair
 typedef struct	s_draw
 {
 	t_p3d		cam_pos;
+	t_p3d		up_pos;
 	size_t		map_w;
 	size_t		map_h;
 	t_vec		verts;

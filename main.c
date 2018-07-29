@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/28 19:24:57 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/29 02:33:46 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ void set_draw(t_data *data)
 	vec_reserve(&draw->pts, draw->verts.length);
 	vec_reserve(&draw->visible_pts, draw->verts.length);
 	draw->red = make_colour(data->mlx.ptr, &data->img, 0xFF0000);
-	draw->cam_pos.z = 15.0f;
-	draw->cam_pos.x = 15.0f;
-	draw->cam_pos.y = 15.0f;
+	draw->cam_pos.x = 10.0f;
+	draw->cam_pos.y = 0.0f;
+	draw->cam_pos.z = 25.0f;
+
+	draw->up_pos.z = 1.0f;
 }
 
 char		*read_vert_row(t_draw *draw, size_t y, char **split)
