@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/28 22:01:06 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/29 05:28:06 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ typedef unsigned int t_uint;
 # define KEY_Up			0xff52
 # define KEY_Right		0xff53
 # define KEY_Down		0xff54
+
+# define MOUSE_Left		1
+# define MOUSE_Mid		2
+# define MOUSE_Right	3
+# define MOUSE_Up		4
+# define MOUSE_Down		5
 
 # define KEY_MAX 0xffff
 # define MOUSE_MAX 10
@@ -79,6 +85,7 @@ typedef struct	s_cfg
 {
 	int			w;
 	int			h;
+	float		zoom_tick;
 }				t_cfg;
 
 /*
@@ -109,8 +116,10 @@ typedef struct	s_ipair
 */
 typedef struct	s_draw
 {
-	t_p3d		cam_pos;
-	t_p3d		up_pos;
+	t_p3d		pivot;
+	t_p3d		rot;
+	float		dist;
+	float		z_scale;
 	size_t		map_w;
 	size_t		map_h;
 	t_vec		verts;
@@ -124,7 +133,7 @@ typedef struct	s_mouse
 {
 	int			x;
 	int			y;
-	int			btn[MOUSE_MAX];
+	char		btn[MOUSE_MAX];
 }				t_mouse;
 
 typedef struct	s_input

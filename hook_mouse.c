@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 15:24:30 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/26 18:30:15 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/29 04:50:04 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ int on_mouseup(int btn, int x, int y, void *param)
 	data->input.m.x = x;
 	data->input.m.y = y;
 	data->input.m.btn[btn] = 0;
+	if (btn == MOUSE_Up)
+		data->draw.dist -= data->cfg.zoom_tick;
+	if (btn == MOUSE_Down)
+		data->draw.dist += data->cfg.zoom_tick;
 	printf("mouse_up: %d (%d, %d)\n", btn, x, y);
 	return 0;
 }

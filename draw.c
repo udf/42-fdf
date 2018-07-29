@@ -6,15 +6,50 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/29 02:35:31 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/29 05:26:32 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	wrap_deg(float *f)
+void	mat_set_modelview(t_mat ret, float distance, t_p3d pivot, t_p3d rot)
 {
-	*f = fmodf(360.0f + *f, 360.0f);
+	(void)rot;
+	mat_set_identity(ret);
+	mat_translate(ret, -pivot.x, -pivot.y, -pivot.z);
+	mat_rotate_z(ret, -rot.z);
+	mat_rotate_y(ret, -rot.y);
+	mat_rotate_x(ret, -rot.x);
+	mat_translate(ret, 0.0f, 0.0f, -distance);
+}
+
+void	process_k_input(t_data *data)
+{
+	data->draw.rot.z += data->input.k[KEY_Left] ? 1.0f : 0.0f;
+	data->draw.rot.z -= data->input.k[KEY_Right] ? 1.0f : 0.0f;
+	data->draw.rot.x += data->input.k[KEY_Up] ? 1.0f : 0.0f;
+	data->draw.rot.x -= data->input.k[KEY_Down] ? 1.0f : 0.0f;
+}
+
+void	process_m_input(t_mat world_to_cam, t_data *data)
+{
+	static char		m_scroll_last = 0;
+	static t_p2d	m_old = {0.0f, 0.0f};
+	t_p3d			m_rot;
+
+	m_rot = (t_p3d){0, 0, 0};
+	if (data->input.m.btn[2] && m_scroll_last != data->input.m.btn[2])
+		m_old = (t_p2d){(float)data->input.m.x, (float)data->input.m.y};
+	if (data->input.m.btn[2] || m_scroll_last != data->input.m.btn[2])
+	{
+		m_rot.x = ((float)data->input.m.y - m_old.y) / (float)data->cfg.w * 360.0f;
+		m_rot.z = ((float)data->input.m.x - m_old.x) / (float)data->cfg.h * 360.0f;
+	}
+	mat_set_modelview(world_to_cam, data->draw.dist, data->draw.pivot,
+		p3d_add(data->draw.rot, m_rot));
+	if (!data->input.m.btn[2] && m_scroll_last != data->input.m.btn[2])
+		data->draw.rot = p3d_add(data->draw.rot, m_rot);
+	m_scroll_last = data->input.m.btn[2];
 }
 
 int	draw(void *param)
@@ -29,48 +64,22 @@ int	draw(void *param)
 	const t_p2d raster_size = {(float)data->cfg.w, (float)data->cfg.h};
 	const t_p2d canvas_size = {1.0f, 1.0f};
 
-	img_clear(&data->img);
-
-	if (data->input.k['w'])
-		data->draw.cam_pos.y += 0.1f;
-	if (data->input.k['s'])
-		data->draw.cam_pos.y -= 0.1f;
-	if (data->input.k['a'])
-		data->draw.cam_pos.x -= 0.1f;
-	if (data->input.k['d'])
-		data->draw.cam_pos.x += 0.1f;
-	if (data->input.k['q'])
-		data->draw.cam_pos.z -= 0.1f;
-	if (data->input.k['e'])
-		data->draw.cam_pos.z += 0.1f;
-
-	const float zx_angle = atan2f(data->draw.cam_pos.z - 0, data->draw.cam_pos.x - 0);
-	const float zx_angle_sin = sinf(zx_angle);
-
-	data->draw.up_pos.y = -powf(zx_angle_sin, 8.0f);
-	data->draw.up_pos.z = data->draw.up_pos.y + 1;
-
-	printf("cam: %.2f %.2f %.2f; up: %.2f %.2f %.2f; zx: %.2f\n",
-		data->draw.cam_pos.x, data->draw.cam_pos.y, data->draw.cam_pos.z,
-		data->draw.up_pos.x, data->draw.up_pos.y, data->draw.up_pos.z,
-		zx_angle * (180 / M_PI)
-	);
+	process_k_input(data);
+	process_m_input(world_to_cam, data);
 
 	i = 0;
 	verts = (t_p3d *)data->draw.verts.data;
 	points = (t_p2d *)data->draw.pts.data;
 	visible_points = (int *)data->draw.visible_pts.data;
-	mat_look_at(world_to_cam, data->draw.cam_pos, (t_p3d){0.0f, 0.0f, 0.0f}, data->draw.up_pos);
-	mat_inverse(world_to_cam, world_to_cam);
 	while (i < data->draw.verts.length)
 	{
 		visible_points[i] = p3d_project(&points[i], raster_size, canvas_size, verts[i], world_to_cam);
-		//printf("%.2f, %.2f, %.2f -> %.2f, %.2f (%d)\n", verts[i].x, verts[i].y, verts[i].z, points[i].x, points[i].y, visible_points[i]);
 		i++;
 	}
 
 	i = 0;
 	lines = (t_ipair *)data->draw.lines.data;
+	img_clear(&data->img);
 	while (i < data->draw.lines.length)
 	{
 		if (visible_points[lines[i].a] && visible_points[lines[i].b])
