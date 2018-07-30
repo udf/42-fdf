@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 15:24:30 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/29 03:29:13 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/30 20:49:53 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ int on_keyup(int key, void *param)
 
 	data->input.k[key] = 0;
 	printf("keyup_hook: %d\n", key);
+	if (key == 'm')
+		data->draw.ortho = !data->draw.ortho;
 	if (key == KEY_Escape)
 		die(*data, "Quit pressed!");
-
 	return 0;
 }

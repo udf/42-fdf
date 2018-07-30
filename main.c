@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/30 19:44:32 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/30 20:41:00 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 // TODO
 // COLOURS!!!
 // pivot setting with right click
+// use depth information for culling?
 
 void set_config(t_data *data)
 {

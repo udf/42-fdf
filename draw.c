@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/30 19:52:00 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/30 20:51:40 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	process_m_input(t_mat world_to_cam, t_data *data)
 
 void	img_put_line3(t_img *img, t_p3d a, t_p3d b, unsigned int col)
 {
+	//printf("%f %f\n", a.z, b.z);
 	img_put_line(img, (t_p2d){a.x, a.y}, (t_p2d){b.x, b.y}, col);
 }
 
@@ -62,6 +63,7 @@ int	draw(t_data *data)
 	t_ipair	*lines;
 	t_mat	world_to_cam;
 	const t_p2d raster_size = {(float)data->cfg.w, (float)data->cfg.h};
+	const float dist = data->draw.ortho ? data->draw.dist : 0;
 
 	process_k_input(data);
 	process_m_input(world_to_cam, data);
@@ -71,7 +73,7 @@ int	draw(t_data *data)
 	points = (t_p3d *)data->draw.pts.data;
 	while (i < data->draw.verts.length)
 	{
-		points[i] = p3d_project(raster_size, verts[i], world_to_cam);
+		points[i] = p3d_project(dist, raster_size, verts[i], world_to_cam);
 		i++;
 	}
 

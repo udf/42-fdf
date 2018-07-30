@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/30 19:44:44 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/30 20:45:26 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef struct
 	t_p3d		rot;
 	float		dist;
 	float		z_scale;
+	char		ortho;
 	size_t		map_w;
 	size_t		map_h;
 	t_vec		verts;
