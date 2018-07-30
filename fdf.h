@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/30 19:04:01 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/30 19:14:15 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef unsigned int t_uint;
 /*
 ** A 2D point but with integers
 */
-typedef struct	s_ip2d
+typedef struct
 {
 	ssize_t		x;
 	ssize_t		y;
@@ -73,7 +73,7 @@ typedef struct	s_ip2d
 /*
 ** Stores various mlx handles
 */
-typedef struct	s_mlx
+typedef struct
 {
 	void		*ptr;
 	void		*win;
@@ -82,7 +82,7 @@ typedef struct	s_mlx
 /*
 ** Stores configurable variables (runtime constants)
 */
-typedef struct	s_cfg
+typedef struct
 {
 	int			w;
 	int			h;
@@ -93,7 +93,7 @@ typedef struct	s_cfg
 /*
 ** Stores an mlx image with the information from mlx_get_data_addr
 */
-typedef struct	s_img
+typedef struct
 {
 	void		*ptr;
 	char		*data;
@@ -107,7 +107,7 @@ typedef struct	s_img
 /*
 ** A pair of indicies, used to define which points connect to form a line
 */
-typedef struct	s_ipair
+typedef struct
 {
 	size_t		a;
 	size_t		b;
@@ -116,7 +116,7 @@ typedef struct	s_ipair
 /*
 ** Stored variables related to drawing
 */
-typedef struct	s_draw
+typedef struct
 {
 	t_p3d		pivot;
 	t_p3d		rot;
@@ -131,21 +131,21 @@ typedef struct	s_draw
 	t_uint		red;
 }				t_draw;
 
-typedef struct	s_btn
+typedef struct
 {
 	char		down;
 	char		changed;
 	char		last;
 }				t_btn;
 
-typedef struct	s_mouse
+typedef struct
 {
 	int			x;
 	int			y;
 	t_btn		btn[MOUSE_MAX];
 }				t_mouse;
 
-typedef struct	s_input
+typedef struct
 {
 	t_mouse		m;
 	int			k[KEY_MAX];
@@ -154,7 +154,7 @@ typedef struct	s_input
 /*
 ** Wraps all the data structures so they can be passed to subfunctions
 */
-typedef struct	s_data
+typedef struct
 {
 	const t_cfg	cfg;
 	t_mlx		mlx;
