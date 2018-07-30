@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/30 18:47:38 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/30 18:52:01 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	register_hooks(t_data *data)
 	mlx_hook(data->mlx.win, ButtonRelease, ButtonReleaseMask, on_mouseup, data);
 	mlx_hook(data->mlx.win, MotionNotify, PointerMotionMask, on_mousemove, data);
 	mlx_expose_hook(data->mlx.win, draw, data);
-	mlx_loop_hook(data->mlx.ptr, draw, data);
+	mlx_loop_hook(data->mlx.ptr, loop, data);
 }
 
 void init_vectors(t_draw *draw)

@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/29 05:26:32 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/30 19:10:21 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	mat_set_modelview(t_mat ret, float distance, t_p3d pivot, t_p3d rot)
 {
-	(void)rot;
 	mat_set_identity(ret);
 	mat_translate(ret, -pivot.x, -pivot.y, -pivot.z);
 	mat_rotate_z(ret, -rot.z);
@@ -33,28 +32,25 @@ void	process_k_input(t_data *data)
 
 void	process_m_input(t_mat world_to_cam, t_data *data)
 {
-	static char		m_scroll_last = 0;
 	static t_p2d	m_old = {0.0f, 0.0f};
 	t_p3d			m_rot;
 
 	m_rot = (t_p3d){0, 0, 0};
-	if (data->input.m.btn[2] && m_scroll_last != data->input.m.btn[2])
+	if (data->input.m.btn[2].down && data->input.m.btn[2].changed)
 		m_old = (t_p2d){(float)data->input.m.x, (float)data->input.m.y};
-	if (data->input.m.btn[2] || m_scroll_last != data->input.m.btn[2])
+	if (data->input.m.btn[2].down || data->input.m.btn[2].changed)
 	{
 		m_rot.x = ((float)data->input.m.y - m_old.y) / (float)data->cfg.w * 360.0f;
 		m_rot.z = ((float)data->input.m.x - m_old.x) / (float)data->cfg.h * 360.0f;
 	}
 	mat_set_modelview(world_to_cam, data->draw.dist, data->draw.pivot,
 		p3d_add(data->draw.rot, m_rot));
-	if (!data->input.m.btn[2] && m_scroll_last != data->input.m.btn[2])
+	if (!data->input.m.btn[2].down && data->input.m.btn[2].changed)
 		data->draw.rot = p3d_add(data->draw.rot, m_rot);
-	m_scroll_last = data->input.m.btn[2];
 }
 
-int	draw(void *param)
+int	draw(t_data *data)
 {
-	t_data *data = (t_data *)param;
 	size_t	i;
 	t_p3d	*verts;
 	t_p2d	*points;

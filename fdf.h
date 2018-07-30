@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/30 18:48:44 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/30 19:04:01 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,11 +131,18 @@ typedef struct	s_draw
 	t_uint		red;
 }				t_draw;
 
+typedef struct	s_btn
+{
+	char		down;
+	char		changed;
+	char		last;
+}				t_btn;
+
 typedef struct	s_mouse
 {
 	int			x;
 	int			y;
-	char		btn[MOUSE_MAX];
+	t_btn		btn[MOUSE_MAX];
 }				t_mouse;
 
 typedef struct	s_input
@@ -164,7 +171,8 @@ int on_keydown(int key, void *param);
 int on_mouseup(int btn, int x, int y, void *param);
 int on_mousedown(int btn, int x, int y, void *param);
 int on_mousemove(int x, int y, void *param);
-int draw(void *param);
+int	loop(void *param);
+int draw(t_data *data);
 
 /*
 ** Utilities

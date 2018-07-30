@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 21:12:22 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/29 21:36:05 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/30 18:57:03 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int on_mousedown(int btn, int x, int y, void *param)
 		return 0;
 	data->input.m.x = x;
 	data->input.m.y = y;
-	data->input.m.btn[btn] = 1;
+	data->input.m.btn[btn].down = 1;
 	printf("mouse_down: %d (%d, %d)\n", btn, x, y);
 	return 0;
 }
@@ -34,7 +34,7 @@ int on_mouseup(int btn, int x, int y, void *param)
 		return 0;
 	data->input.m.x = x;
 	data->input.m.y = y;
-	data->input.m.btn[btn] = 0;
+	data->input.m.btn[btn].down = 0;
 	scroll_tick = data->cfg.zoom_tick;
 	scroll_tick *= data->input.k[KEY_Shift] ? data->cfg.zoom_mult : 1.0f;
 	if (btn == MOUSE_Up)
