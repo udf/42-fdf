@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/30 19:14:15 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/30 19:44:44 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ typedef struct
 	t_vec		verts;
 	t_vec		lines;
 	t_vec		pts;
-	t_vec		visible_pts;
 	t_uint		red;
 }				t_draw;
 

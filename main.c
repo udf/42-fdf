@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/30 18:52:01 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/30 19:44:32 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 // TODO
 // COLOURS!!!
-// mouse button changed/down attr
 // pivot setting with right click
 
 void set_config(t_data *data)
@@ -34,7 +33,6 @@ void set_draw(t_data *data)
 
 	draw = &data->draw;
 	vec_reserve(&draw->pts, draw->verts.length);
-	vec_reserve(&draw->visible_pts, draw->verts.length);
 	draw->red = make_colour(data->mlx.ptr, &data->img, 0xFF0000);
 
 	draw->dist = (float)(draw->map_w + draw->map_h / 2);
@@ -144,8 +142,7 @@ void init_vectors(t_draw *draw)
 {
 	draw->lines.type_size = sizeof(t_ipair);
 	draw->verts.type_size = sizeof(t_p3d);
-	draw->pts.type_size = sizeof(t_p2d);
-	draw->visible_pts.type_size = sizeof(int);
+	draw->pts.type_size = sizeof(t_p3d);
 }
 
 int main(int ac, char **av)

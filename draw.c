@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/30 19:10:21 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/30 19:52:00 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,27 +49,29 @@ void	process_m_input(t_mat world_to_cam, t_data *data)
 		data->draw.rot = p3d_add(data->draw.rot, m_rot);
 }
 
+void	img_put_line3(t_img *img, t_p3d a, t_p3d b, unsigned int col)
+{
+	img_put_line(img, (t_p2d){a.x, a.y}, (t_p2d){b.x, b.y}, col);
+}
+
 int	draw(t_data *data)
 {
 	size_t	i;
 	t_p3d	*verts;
-	t_p2d	*points;
-	int		*visible_points;
+	t_p3d	*points;
 	t_ipair	*lines;
 	t_mat	world_to_cam;
 	const t_p2d raster_size = {(float)data->cfg.w, (float)data->cfg.h};
-	const t_p2d canvas_size = {1.0f, 1.0f};
 
 	process_k_input(data);
 	process_m_input(world_to_cam, data);
 
 	i = 0;
 	verts = (t_p3d *)data->draw.verts.data;
-	points = (t_p2d *)data->draw.pts.data;
-	visible_points = (int *)data->draw.visible_pts.data;
+	points = (t_p3d *)data->draw.pts.data;
 	while (i < data->draw.verts.length)
 	{
-		visible_points[i] = p3d_project(&points[i], raster_size, canvas_size, verts[i], world_to_cam);
+		points[i] = p3d_project(raster_size, verts[i], world_to_cam);
 		i++;
 	}
 
@@ -78,8 +80,8 @@ int	draw(t_data *data)
 	img_clear(&data->img);
 	while (i < data->draw.lines.length)
 	{
-		if (visible_points[lines[i].a] && visible_points[lines[i].b])
-			img_put_line(&data->img, points[lines[i].a], points[lines[i].b], data->draw.red);
+		if (points[lines[i].a].z > 0 && points[lines[i].b].z > 0)
+			img_put_line3(&data->img, points[lines[i].a], points[lines[i].b], data->draw.red);
 		i++;
 	}
 
