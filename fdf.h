@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/29 21:00:16 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/30 18:48:44 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct	s_cfg
 	int			w;
 	int			h;
 	float		zoom_tick;
-	float		zoom_fast;
+	float		zoom_mult;
 }				t_cfg;
 
 /*
