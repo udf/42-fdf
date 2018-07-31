@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 11:45:01 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 14:49:15 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,28 @@ void	mat_set_modelview(t_mat ret, float distance, t_p3d pivot, t_p3d rot)
 
 void	process_k_input(t_data *data)
 {
+	t_p2d diff;
+	const float move_mult = data->input.k[KEY_Shift] ? 1.0f : 0.1f;
+
 	data->draw.rot.z += data->input.k[KEY_Left] ? 1.0f : 0.0f;
 	data->draw.rot.z -= data->input.k[KEY_Right] ? 1.0f : 0.0f;
 	data->draw.rot.x += data->input.k[KEY_Up] ? 1.0f : 0.0f;
 	data->draw.rot.x -= data->input.k[KEY_Down] ? 1.0f : 0.0f;
-	if (data->input.k[KEY_d])
+	data->draw.pivot.z += data->input.k[KEY_e] ? move_mult : 0.0f;
+	data->draw.pivot.z -= data->input.k[KEY_q] ? move_mult : 0.0f;
+	if (data->input.k[KEY_d] || data->input.k[KEY_a])
 	{
-		data->draw.pivot.x += cos_deg(data->draw.rot.z) * 0.1f;
-		data->draw.pivot.y += sin_deg(data->draw.rot.z) * 0.1f;
+		diff.x = cos_deg(data->draw.rot.z) * (data->input.k[KEY_a] ? -1 : 1);
+		diff.y = sin_deg(data->draw.rot.z) * (data->input.k[KEY_a] ? -1 : 1);
+		data->draw.pivot.x += diff.x * move_mult;
+		data->draw.pivot.y += diff.y * move_mult;
 	}
-	if (data->input.k[KEY_a])
+	if (data->input.k[KEY_w] || data->input.k[KEY_s])
 	{
-		data->draw.pivot.x -= cos_deg(data->draw.rot.z) * 0.1f;
-		data->draw.pivot.y -= sin_deg(data->draw.rot.z) * 0.1f;
-	}
-	if (data->input.k[KEY_w])
-	{
-		data->draw.pivot.x += sin_deg(data->draw.rot.z) * 0.1f;
-		data->draw.pivot.y -= cos_deg(data->draw.rot.z) * 0.1f;
-	}
-	if (data->input.k[KEY_s])
-	{
-		data->draw.pivot.x -= sin_deg(data->draw.rot.z) * 0.1f;
-		data->draw.pivot.y += cos_deg(data->draw.rot.z) * 0.1f;
+		diff.x = sin_deg(data->draw.rot.z) * (data->input.k[KEY_w] ? 1 : -1);
+		diff.y = cos_deg(data->draw.rot.z) * (data->input.k[KEY_w] ? -1 : 1);
+		data->draw.pivot.x += diff.x * move_mult;
+		data->draw.pivot.y += diff.y * move_mult;
 	}
 }
 
