@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 23:42:28 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 21:04:33 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 21:08:35 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,10 @@ static int	line_clip(t_p2d *a, t_p2d *b, float w, float h)
 	const float m = (b->y - a->y) / (b->x - a->x);
 	const float im = (b->x - a->x) / (b->y - a->y);
 
-	if (a->x < 0 || a->x >= w || a->y < 0 || a->y >= h)
-		if (b->x < 0 || b->x >= w || b->y < 0 || b->y >= h)
-			return 1;
 	point_clip(a, w, h, m, im);
 	point_clip(b, w, h, m, im);
-	return (0);
+	return ((a->x < 0 || a->x >= w || a->y < 0 || a->y >= h)
+				&& (b->x < 0 || b->x >= w || b->y < 0 || b->y >= h));
 }
 
 void	img_put_line(t_img *img, t_p2d a, t_p2d b, unsigned int col)
