@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 10:30:24 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 15:07:38 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 // TODO
 // COLOURS!!!
-// pivot setting with right click
 // use depth information for culling?
 
 void set_config(t_data *data)
@@ -118,7 +117,7 @@ char	*load_map(t_draw *draw, char *path)
 		if (!split)
 			return "Failed to read map line";
 		line = read_vert_row(draw, draw->map_h, split);
-		free(split);
+		ft_tabfree((void **)split);
 		if (line)
 			return (line);
 		draw->map_h++;
