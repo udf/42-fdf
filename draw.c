@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/30 20:51:40 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 08:28:39 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ void	process_m_input(t_mat world_to_cam, t_data *data)
 	t_p3d			m_rot;
 
 	m_rot = (t_p3d){0, 0, 0};
-	if (data->input.m.btn[2].down && data->input.m.btn[2].changed)
+	if (data->input.m.btn[1].down && data->input.m.btn[1].changed)
 		m_old = (t_p2d){(float)data->input.m.x, (float)data->input.m.y};
-	if (data->input.m.btn[2].down || data->input.m.btn[2].changed)
+	if (data->input.m.btn[1].down || data->input.m.btn[1].changed)
 	{
 		m_rot.x = ((float)data->input.m.y - m_old.y) / (float)data->cfg.w * 360.0f;
 		m_rot.z = ((float)data->input.m.x - m_old.x) / (float)data->cfg.h * 360.0f;
 	}
 	mat_set_modelview(world_to_cam, data->draw.dist, data->draw.pivot,
 		p3d_add(data->draw.rot, m_rot));
-	if (!data->input.m.btn[2].down && data->input.m.btn[2].changed)
+	if (!data->input.m.btn[1].down && data->input.m.btn[1].changed)
 		data->draw.rot = p3d_add(data->draw.rot, m_rot);
 }
 
