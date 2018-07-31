@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 09:09:45 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 10:46:31 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ typedef struct
 	t_vec		lines;
 	t_vec		pts;
 	t_uint		red;
+	t_uint		col_pivot;
 }				t_draw;
 
 typedef struct
@@ -168,13 +169,13 @@ typedef struct
 /*
 ** Events
 */
-int on_keyup(int key, void *param);
-int on_keydown(int key, void *param);
-int on_mouseup(int btn, int x, int y, void *param);
-int on_mousedown(int btn, int x, int y, void *param);
-int on_mousemove(int x, int y, void *param);
-int	loop(void *param);
-int draw(t_data *data);
+int				on_keyup(int key, void *param);
+int				on_keydown(int key, void *param);
+int				on_mouseup(int btn, int x, int y, void *param);
+int				on_mousedown(int btn, int x, int y, void *param);
+int				on_mousemove(int x, int y, void *param);
+int				loop(void *param);
+int				draw(t_data *data);
 
 /*
 ** Utilities
@@ -194,9 +195,9 @@ size_t			ip2d_to_i(t_ip2d p, size_t w);
 /*
 ** Image drawing
 */
-void	img_put_pixel(t_img *img, int x, int y, unsigned int col);
-void	img_put_line(t_img *img, t_p2d a, t_p2d b, unsigned int col);
-void	img_clear(t_img *img);
+void			img_put_pixel(t_img *img, int x, int y, unsigned int col);
+void			img_put_line(t_img *img, t_p2d a, t_p2d b, unsigned int col);
+void			img_clear(t_img *img);
 
 
 #endif

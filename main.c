@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 09:09:30 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 10:30:24 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void set_draw(t_data *data)
 	draw = &data->draw;
 	vec_reserve(&draw->pts, draw->verts.length);
 	draw->red = make_colour(data->mlx.ptr, &data->img, 0xFF0000);
-
+	draw->col_pivot = make_colour(data->mlx.ptr, &data->img, 0xCC924A);
 	draw->dist = (float)(draw->map_w + draw->map_h / 2);
 	draw->pivot = (t_p3d){(float)draw->map_w / 2, (float)draw->map_h / 2, 0};
 	draw->rot.x = -45.0f;

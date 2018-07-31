@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 09:15:20 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 10:46:46 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,36 @@ t_p3d	z_scale(t_p3d p, float scale)
 	return ((t_p3d){p.x, p.y, p.z / scale});
 }
 
-int	draw(t_data *data)
+void	draw_pivot(t_data *data, t_mat world_to_cam, float dist)
+{
+	const char pixmap[5][5] = {{0, 1, 1, 1, 0}, {1, 0, 0, 0, 1},
+						{1, 0, 1, 0, 1}, {1, 0, 0, 0, 1}, {0, 1, 1, 1, 0}};
+	t_p3d pivot;
+	int x;
+	int y;
+
+	pivot = p3d_project(dist, (t_p2d){(float)data->cfg.w, (float)data->cfg.h},
+				z_scale(data->draw.pivot, data->draw.z_scale), world_to_cam);
+	if (pivot.z <= 0)
+		return ;
+	x = 0;
+	while (x < 5)
+	{
+		y = 0;
+		while (y < 5)
+		{
+			if (pixmap[x][y])
+				img_put_pixel(&data->img,
+					(int)pivot.x + x - 2, (int)pivot.y + y - 2,
+					data->draw.col_pivot
+				);
+			y++;
+		}
+		x++;
+	}
+}
+
+int		draw(t_data *data)
 {
 	size_t	i;
 	t_p3d	*verts;
@@ -92,7 +121,8 @@ int	draw(t_data *data)
 			img_put_line3(&data->img, points[lines[i].a], points[lines[i].b], data->draw.red);
 		i++;
 	}
+	draw_pivot(data, world_to_cam, dist);
 
 	mlx_put_image_to_window(data->mlx.ptr, data->mlx.win, data->img.ptr, 0, 0);
-	return 0;
+	return (0);
 }
