@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 23:42:28 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 20:18:53 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 21:04:33 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,5 @@ void	img_put_line(t_img *img, t_p2d a, t_p2d b, unsigned int col)
 
 void	img_clear(t_img *img)
 {
-	const size_t len = (size_t)(img->stride * img->h) / sizeof(unsigned long);
-	size_t i;
-	unsigned long *v;
-
-	i = 0;
-	v = (unsigned long *)img->data;
-	while (i < len)
-	{
-		v[i] = 0;
-		i++;
-	}
+	ft_bzero((void *)img->data, (size_t)(img->stride * img->h));
 }
