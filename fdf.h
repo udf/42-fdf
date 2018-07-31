@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 11:46:45 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 15:18:47 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <stdio.h> // aaa
 # include "libft.h"
 # include "lib3d.h"
 # include "get_next_line.h"
 # include "vec.h"
+
+# include <stdio.h> // aaa
 
 typedef unsigned int t_uint;
 
