@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 15:18:43 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 20:12:53 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,8 @@ int		draw(t_data *data)
 			img_put_line3(&data->img, points[lines[i].a], points[lines[i].b], data->draw.red);
 		i++;
 	}
-	draw_pivot(data);
 
+	draw_pivot(data);
 	mlx_put_image_to_window(data->mlx.ptr, data->mlx.win, data->img.ptr, 0, 0);
 	return (0);
 }

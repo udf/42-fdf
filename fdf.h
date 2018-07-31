@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 15:18:47 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 19:08:46 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "vec.h"
 
 # include <stdio.h> // aaa
+# include <time.h> // aaa
 
 typedef unsigned int t_uint;
 
