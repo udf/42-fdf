@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 23:42:28 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 20:10:42 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 20:18:53 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	img_put_pixel(t_img *img, int x, int y, unsigned int col)
 	if (x < 0 || x >= img->w || y < 0 || y >= img->h)
 		return ;
 	data = img->data + x * bytes_pp + y * img->stride;
-	ft_memcpy((void *)data, (void*)&col, (size_t)bytes_pp);
+	*((unsigned int *)data) = col;
 }
 
 static void	point_clip(t_p2d *p, float w, float h, float m, float im)
