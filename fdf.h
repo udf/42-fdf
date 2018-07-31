@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 10:46:31 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 11:46:45 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@ typedef unsigned int t_uint;
 # define KEY_Down		0xff54
 # define KEY_Shift		0xffe1
 # define KEY_Ctrl		0xffe3
+# define KEY_m			'm'
+# define KEY_w			'w'
+# define KEY_s			's'
+# define KEY_a			'a'
+# define KEY_d			'd'
+# define KEY_q			'q'
+# define KEY_e			'e'
+# define KEY_r			'r'
 
 # define MOUSE_Left		1
 # define MOUSE_Mid		2

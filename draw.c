@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 10:53:55 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 11:45:01 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,26 @@ void	process_k_input(t_data *data)
 	data->draw.rot.z -= data->input.k[KEY_Right] ? 1.0f : 0.0f;
 	data->draw.rot.x += data->input.k[KEY_Up] ? 1.0f : 0.0f;
 	data->draw.rot.x -= data->input.k[KEY_Down] ? 1.0f : 0.0f;
+	if (data->input.k[KEY_d])
+	{
+		data->draw.pivot.x += cos_deg(data->draw.rot.z) * 0.1f;
+		data->draw.pivot.y += sin_deg(data->draw.rot.z) * 0.1f;
+	}
+	if (data->input.k[KEY_a])
+	{
+		data->draw.pivot.x -= cos_deg(data->draw.rot.z) * 0.1f;
+		data->draw.pivot.y -= sin_deg(data->draw.rot.z) * 0.1f;
+	}
+	if (data->input.k[KEY_w])
+	{
+		data->draw.pivot.x += sin_deg(data->draw.rot.z) * 0.1f;
+		data->draw.pivot.y -= cos_deg(data->draw.rot.z) * 0.1f;
+	}
+	if (data->input.k[KEY_s])
+	{
+		data->draw.pivot.x -= sin_deg(data->draw.rot.z) * 0.1f;
+		data->draw.pivot.y += cos_deg(data->draw.rot.z) * 0.1f;
+	}
 }
 
 void	process_m_input(t_mat world_to_cam, t_data *data)

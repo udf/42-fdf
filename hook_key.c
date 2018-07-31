@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 15:24:30 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/30 20:49:53 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/07/31 11:50:52 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,13 @@ int on_keyup(int key, void *param)
 
 	if (key < 0 || key > KEY_MAX)
 		return 0;
-
 	data->input.k[key] = 0;
 	printf("keyup_hook: %d\n", key);
-	if (key == 'm')
+	if (key == KEY_m)
 		data->draw.ortho = !data->draw.ortho;
+	if (key == KEY_r)
+		data->draw.pivot = (t_p3d){(float)data->draw.map_w / 2,
+									(float)data->draw.map_h / 2, 0};
 	if (key == KEY_Escape)
 		die(*data, "Quit pressed!");
 	return 0;
