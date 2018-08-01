@@ -6,16 +6,14 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 15:24:30 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 11:50:52 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/01 14:40:27 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int on_keydown(int key, void *param)
+int on_keydown(int key, t_data *data)
 {
-	t_data *data = (t_data *)param;
-
 	if (key < 0 || key > KEY_MAX)
 		return 0;
 	data->input.k[key] = 1;
@@ -23,10 +21,8 @@ int on_keydown(int key, void *param)
 	return 0;
 }
 
-int on_keyup(int key, void *param)
+int on_keyup(int key, t_data *data)
 {
-	t_data *data = (t_data *)param;
-
 	if (key < 0 || key > KEY_MAX)
 		return 0;
 	data->input.k[key] = 0;

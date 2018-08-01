@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 18:52:13 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 20:46:01 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/01 14:41:30 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	process_btn_changes(t_data *data)
 	}
 }
 
-int	loop(void *param)
+int	loop(t_data *data)
 {
-	process_btn_changes((t_data *)param);
-	draw((t_data *)param);
+	process_btn_changes(data);
+	draw(data);
 	return (0);
 }

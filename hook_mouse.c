@@ -6,16 +6,14 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 21:12:22 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 09:11:03 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/01 14:40:55 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int on_mousedown(int btn, int x, int y, void *param)
+int on_mousedown(int btn, int x, int y, t_data *data)
 {
-	t_data *data = (t_data *)param;
-
 	if (btn < 0 || btn > MOUSE_MAX)
 		return 0;
 	data->input.m.x = x;
@@ -25,9 +23,8 @@ int on_mousedown(int btn, int x, int y, void *param)
 	return 0;
 }
 
-int on_mouseup(int btn, int x, int y, void *param)
+int on_mouseup(int btn, int x, int y, t_data *data)
 {
-	t_data *data = (t_data *)param;
 	float scroll_tick;
 	float *scroll_v;
 
@@ -48,10 +45,8 @@ int on_mouseup(int btn, int x, int y, void *param)
 	return 0;
 }
 
-int on_mousemove(int x, int y, void *param)
+int on_mousemove(int x, int y, t_data *data)
 {
-	t_data *data = (t_data *)param;
-
 	data->input.m.x = x;
 	data->input.m.y = y;
 	return 0;

@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 19:08:46 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/01 14:41:35 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,12 +179,12 @@ typedef struct
 /*
 ** Events
 */
-int				on_keyup(int key, void *param);
-int				on_keydown(int key, void *param);
-int				on_mouseup(int btn, int x, int y, void *param);
-int				on_mousedown(int btn, int x, int y, void *param);
-int				on_mousemove(int x, int y, void *param);
-int				loop(void *param);
+int				on_keyup(int key, t_data *data);
+int				on_keydown(int key, t_data *data);
+int				on_mouseup(int btn, int x, int y, t_data *data);
+int				on_mousedown(int btn, int x, int y, t_data *data);
+int				on_mousemove(int x, int y, t_data *data);
+int				loop(t_data *data);
 int				draw(t_data *data);
 
 /*
