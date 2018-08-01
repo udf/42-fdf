@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 23:42:28 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 21:08:35 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/01 21:54:05 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,22 @@ void	img_put_line(t_img *img, t_p2d a, t_p2d b, unsigned int col)
 
 void	img_clear(t_img *img)
 {
-	ft_bzero((void *)img->data, (size_t)(img->stride * img->h));
+	const size_t	len = (size_t)(img->stride * img->h) / sizeof(t_uint);
+	t_uint			*data;
+	size_t			i;
+
+	data = (t_uint *)img->data;
+	/* debug: if red flickering is seen then need double buffer
+	i = 0;
+	while (i < len)
+	{
+		data[i] = 0xFF0000;
+		i++;
+	}*/
+	i = 0;
+	while (i < len)
+	{
+		data[i] = 0;
+		i++;
+	}
 }
