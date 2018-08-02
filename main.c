@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 15:25:10 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 15:25:51 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ static void	set_config(t_data *data)
 	cfg->zoom_mult = 5.0f;
 }
 
-static void	set_draw(t_draw *draw)
+static void	set_draw(t_data *data)
 {
+	t_draw *draw;
+
+	draw = &data->draw;
 	vec_reserve(&draw->pts, draw->verts.length);
 	draw->red = make_colour(data->mlx.ptr, &data->img, 0xFF0000);
 	draw->col_pivot = make_colour(data->mlx.ptr, &data->img, 0xCC924A);
@@ -76,7 +79,7 @@ int			main(int ac, char **av)
 	data.img = make_img(data.mlx.ptr, data.cfg.w, data.cfg.h);
 	if (data.img.ptr == NULL || data.img.bpp % 8 != 0)
 		die(data, "Failed to create image");
-	set_draw(&data.draw);
+	set_draw(&data);
 	register_hooks(&data);
 	mlx_loop(data.mlx.ptr);
 	return (0);
