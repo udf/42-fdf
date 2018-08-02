@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 13:47:50 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 15:09:07 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,23 @@
 typedef unsigned int	t_uint;
 
 /*
-** Keycodes (because the header doesn't exist in OSX)
-** mlx uses the codes found in /usr/include/keysymdef.h
+** Keycodes
 */
-# define KEY_ESC		0xff1b
-# define KEY_LEFT		0xff51
-# define KEY_UP			0xff52
-# define KEY_RIGHT		0xff53
-# define KEY_DOWN		0xff54
-# define KEY_SHIFT		0xffe1
-# define KEY_CTRL		0xffe3
-# define KEY_M			'm'
-# define KEY_W			'w'
-# define KEY_S			's'
-# define KEY_A			'a'
-# define KEY_D			'd'
-# define KEY_Q			'q'
-# define KEY_E			'e'
-# define KEY_R			'r'
+# define KEY_ESC		53
+# define KEY_LEFT		123
+# define KEY_RIGHT		124
+# define KEY_DOWN		125
+# define KEY_UP			126
+# define KEY_ALT		261
+# define KEY_CTRL		256
+# define KEY_M			46
+# define KEY_W			13
+# define KEY_S			1
+# define KEY_A			0
+# define KEY_D			2
+# define KEY_Q			12
+# define KEY_E			14
+# define KEY_R			15
 
 # define MOUSE_LEFT		1
 # define MOUSE_UP		4
@@ -55,8 +54,7 @@ typedef unsigned int	t_uint;
 # define MOUSE_MAX 10
 
 /*
-** Event codes (because the header doesn't exist in OSX)
-** mlx uses the codes found in /usr/include/X11/X.h
+** Event codes
 */
 # define KEY_PRESS		2
 # define KEY_RELEASE	3

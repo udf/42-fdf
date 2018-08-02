@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 18:52:13 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 13:50:06 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 15:09:48 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	process_btn_changes(t_data *data)
 
 static void	process_k_input(t_data *data)
 {
-	const float	move_mult = data->input.k[KEY_SHIFT] ? 1.0f : 0.1f;
+	const float	move_mult = data->input.k[KEY_ALT] ? 1.0f : 0.1f;
 	t_p2d		diff;
 
 	data->draw.rot.z += data->input.k[KEY_LEFT] ? 1.0f : 0.0f;
