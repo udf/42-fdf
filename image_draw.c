@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/01 21:59:08 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 20:25:39 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 21:39:42 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,20 @@ void		img_put_line(t_img *img, t_p2d a, t_p2d b, t_uint col)
 
 void		img_clear(t_img *img)
 {
-	const size_t	len = (size_t)(img->stride * img->h) / sizeof(t_uint);
+	const size_t	data_len = (size_t)(img->stride * img->h) / sizeof(t_uint);
+	const size_t	z_buf_len = (size_t)(img->w * img->h);
 	t_uint			*data;
 	size_t			i;
 
-	data = (t_uint *)img->data;
-	/* debug: if red flickering is seen then need double buffer
 	i = 0;
-	while (i < len)
+	while (i < z_buf_len)
 	{
-		data[i] = 0xFF0000;
+		img->z_buf[i] = INFINITY;
 		i++;
-	}*/
+	}
+	data = (t_uint *)img->data;
 	i = 0;
-	while (i < len)
+	while (i < data_len)
 	{
 		data[i] = 0;
 		i++;

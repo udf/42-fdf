@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 21:36:30 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 21:40:46 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,23 @@ void	draw_pivot(t_data *data)
 	}
 }
 
-void	init_z_buffer(t_img *img)
+void	project(t_data *data)
 {
-	const size_t	len = (size_t)(img->w * img->h);
-	size_t			i;
+	size_t		i;
+	t_p3d		*verts;
+	t_p3d		*points;
+	t_mat		world_to_cam;
+	const t_p2d	raster_size = {(float)data->cfg.w, (float)data->cfg.h};
 
+	mat_set_modelview(world_to_cam, data->draw.dist, data->draw.pivot,
+		p3d_add(data->draw.rot, data->draw.m_rot));
 	i = 0;
-	while (i < len)
+	verts = (t_p3d *)data->draw.verts.data;
+	points = (t_p3d *)data->draw.pts.data;
+	while (i < data->draw.verts.length)
 	{
-		img->z_buf[i] = INFINITY;
+		points[i] = p3d_project(data->draw.ortho ? data->draw.dist : 0,
+			raster_size, z_scale(verts[i], data->draw.z_scale), world_to_cam);
 		i++;
 	}
 }
@@ -108,8 +116,8 @@ int		draw(t_data *data)
 	verts = (t_p3d *)data->draw.verts.data;
 	lines = (t_ipair *)data->draw.lines.data;
 	points = (t_p3d *)data->draw.pts.data;
+	project(data);
 	img_clear(&data->img);
-	init_z_buffer(&data->img);
 	while (i < data->draw.lines.length)
 	{
 		if (points[lines[i].a].z > 0 && points[lines[i].b].z > 0)
