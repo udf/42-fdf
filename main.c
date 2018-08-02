@@ -6,14 +6,11 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 20:36:19 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 21:10:30 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-// TODO
-// use depth information for culling?
 
 static void	set_config(t_data *data)
 {

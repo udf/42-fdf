@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 20:41:26 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 21:09:14 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct	s_cfg
 
 /*
 ** Stores an mlx image with the information from mlx_get_data_addr
+** as well as a z-buffer
 */
 typedef struct	s_img
 {
@@ -123,6 +124,7 @@ typedef struct	s_img
 	int			endian;
 	int			w;
 	int			h;
+	float		*z_buf;
 }				t_img;
 
 /*
@@ -193,6 +195,10 @@ int				draw(t_data *data);
 /*
 ** Utilities
 */
+float			flerpf(float frac, float start, float end);
+t_p2d			t_p2d_lerp(float frac, t_p2d start, t_p2d end);
+t_p2d			p2d_roundf(t_p2d p);
+
 t_img			make_img(void *mlx_ptr, int w, int h);
 void			die(t_data data, char *msg);
 
