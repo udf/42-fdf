@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/01 21:59:08 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 13:54:15 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 14:23:18 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void		img_put_line(t_img *img, t_p2d a, t_p2d b, t_uint col)
 	i = 0;
 	while (i < steps)
 	{
-		p = (t_p2d){ft_lmapf(i, 0, steps, a.x, b.x),
-					ft_lmapf(i, 0, steps, a.y, b.y)};
+		p = (t_p2d){ft_lmapf(i, (t_lrange){0, steps}, (t_frange){a.x, b.x}),
+					ft_lmapf(i, (t_lrange){0, steps}, (t_frange){a.y, b.y})};
 		img_put_pixel(img, (int)roundf(p.x), (int)roundf(p.y), col);
 		i++;
 	}
