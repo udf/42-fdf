@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 20:18:37 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 20:41:26 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,14 +193,10 @@ int				draw(t_data *data);
 /*
 ** Utilities
 */
-int				get_endian(void);
-t_uint			swap_endian(t_uint n);
 t_img			make_img(void *mlx_ptr, int w, int h);
 void			die(t_data data, char *msg);
 
 t_ip2d			ip2d_add(t_ip2d a, t_ip2d b);
-t_ip2d			ip2d_sub(t_ip2d a, t_ip2d b);
-int				ip2d_eq(t_ip2d a, t_ip2d b);
 int				ip2d_in_rect(t_ip2d p, size_t w, size_t h);
 size_t			ip2d_to_i(t_ip2d p, size_t w);
 
