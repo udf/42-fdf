@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 18:52:13 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 15:09:48 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 21:36:33 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,33 @@ static void	process_m_input(t_data *data)
 	}
 }
 
+void	project(t_data *data)
+{
+	size_t		i;
+	t_p3d		*verts;
+	t_p3d		*points;
+	t_mat		world_to_cam;
+	const t_p2d	raster_size = {(float)data->cfg.w, (float)data->cfg.h};
+
+	mat_set_modelview(world_to_cam, data->draw.dist, data->draw.pivot,
+		p3d_add(data->draw.rot, data->draw.m_rot));
+	i = 0;
+	verts = (t_p3d *)data->draw.verts.data;
+	points = (t_p3d *)data->draw.pts.data;
+	while (i < data->draw.verts.length)
+	{
+		points[i] = p3d_project(data->draw.ortho ? data->draw.dist : 0,
+			raster_size, z_scale(verts[i], data->draw.z_scale), world_to_cam);
+		i++;
+	}
+}
+
 int			loop(t_data *data)
 {
 	process_btn_changes(data);
 	process_k_input(data);
 	process_m_input(data);
+	project(data);
 	draw(data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 21:08:38 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 21:36:30 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,22 +103,11 @@ int		draw(t_data *data)
 	t_p3d		*verts;
 	t_p3d		*points;
 	t_ipair		*lines;
-	t_mat		world_to_cam;
-	const t_p2d	raster_size = {(float)data->cfg.w, (float)data->cfg.h};
-	const float	dist = data->draw.ortho ? data->draw.dist : 0;
 
-	mat_set_modelview(world_to_cam, data->draw.dist, data->draw.pivot,
-		p3d_add(data->draw.rot, data->draw.m_rot));
 	i = 0;
 	verts = (t_p3d *)data->draw.verts.data;
-	points = (t_p3d *)data->draw.pts.data;
-	while (i < data->draw.verts.length)
-	{
-		points[i] = p3d_project(dist, raster_size, z_scale(verts[i], data->draw.z_scale), world_to_cam);
-		i++;
-	}
-	i = 0;
 	lines = (t_ipair *)data->draw.lines.data;
+	points = (t_p3d *)data->draw.pts.data;
 	img_clear(&data->img);
 	init_z_buffer(&data->img);
 	while (i < data->draw.lines.length)
