@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 15:09:07 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 17:02:09 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ typedef struct	s_draw
 	t_vec		pts;
 	t_uint		red;
 	t_uint		col_pivot;
+	t_vec		colmap;
+	size_t		colmap_offset;
 }				t_draw;
 
 typedef struct	s_btn
@@ -194,6 +196,11 @@ int				ip2d_eq(t_ip2d a, t_ip2d b);
 int				ip2d_in_rect(t_ip2d p, size_t w, size_t h);
 size_t			ip2d_to_i(t_ip2d p, size_t w);
 
+t_uint	cmap_get(t_draw *draw, int height);
+t_byte	get_byte(t_uint a, t_byte n);
+t_uint	lerp_byte(float frac, t_uint a, t_uint b, t_byte n);
+t_uint	colour_lerp(float n, t_uint a, t_uint b);
+
 /*
 ** Image drawing
 */
@@ -205,5 +212,6 @@ void			img_clear(t_img *img);
 ** Map reading
 */
 char			*load_map(t_draw *draw, char *path);
+char			*load_colour_map(t_data *data, int ac, char **av);
 
 #endif

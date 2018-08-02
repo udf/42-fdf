@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 15:25:13 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 13:39:58 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 16:00:29 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	die(t_data data, char *msg)
 	vec_free(&data.draw.verts);
 	vec_free(&data.draw.pts);
 	vec_free(&data.draw.lines);
+	vec_free(&data.draw.colmap);
 	if (data.img.ptr)
 		mlx_destroy_image(data.mlx.ptr, data.img.ptr);
 	if (data.mlx.win)
