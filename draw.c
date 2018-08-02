@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 14:57:00 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 20:35:27 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,29 @@ void	mat_set_modelview(t_mat ret, float distance, t_p3d pivot, t_p3d rot)
 	mat_translate(ret, 0.0f, 0.0f, -distance);
 }
 
-void	img_put_line3(t_img *img, t_p3d a, t_p3d b, t_uint col)
+void	img_put_line3(t_img *img, t_p3d a, t_p3d b, t_colpair colours)
 {
-	//printf("%f %f\n", a.z, b.z);
-	img_put_line(img, (t_p2d){a.x, a.y}, (t_p2d){b.x, b.y}, col);
+	long	i;
+	long	steps;
+	t_p2d	p;
+	t_uint	colour;
+
+	if (line_clip((t_p2d *)&a, (t_p2d *)&b, (float)img->w, (float)img->h))
+		return ;
+	a.x = roundf(a.x);
+	a.y = roundf(a.y);
+	b.x = roundf(b.x);
+	b.y = roundf(b.y);
+	steps = (long)MAX(ABS(b.x - a.x), ABS(b.y - a.y));
+	i = 0;
+	while (i < steps)
+	{
+		p = (t_p2d){ft_lmapf(i, (t_lrange){0, steps}, (t_frange){a.x, b.x}),
+					ft_lmapf(i, (t_lrange){0, steps}, (t_frange){a.y, b.y})};
+		colour = colour_lerp((float)i / (float)steps, colours.a, colours.b);
+		img_put_pixel(img, (int)roundf(p.x), (int)roundf(p.y), colour);
+		i++;
+	}
 }
 
 t_p3d	z_scale(t_p3d p, float scale)
@@ -87,7 +106,10 @@ int		draw(t_data *data)
 	while (i < data->draw.lines.length)
 	{
 		if (points[lines[i].a].z > 0 && points[lines[i].b].z > 0)
-			img_put_line3(&data->img, points[lines[i].a], points[lines[i].b], data->draw.red);
+			img_put_line3(&data->img, points[lines[i].a], points[lines[i].b],
+				(t_colpair){
+					cmap_get(&data->draw, (int)verts[lines[i].a].z),
+					cmap_get(&data->draw, (int)verts[lines[i].b].z)});
 		i++;
 	}
 	draw_pivot(data);

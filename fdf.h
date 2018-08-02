@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 17:02:09 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 20:18:37 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <limits.h>
 # include "libft.h"
 # include "lib3d.h"
 # include "get_next_line.h"
@@ -72,6 +73,24 @@ typedef struct	s_ip2d
 }				t_ip2d;
 
 /*
+** A pair of unsigned ints (colours)
+*/
+typedef struct	s_colpair
+{
+	t_uint		a;
+	t_uint		b;
+}				t_colpair;
+
+/*
+** A pair of indicies, used to define which points connect to form a line
+*/
+typedef struct	s_ipair
+{
+	size_t		a;
+	size_t		b;
+}				t_ipair;
+
+/*
 ** Stores various mlx handles
 */
 typedef struct	s_mlx
@@ -107,15 +126,6 @@ typedef struct	s_img
 }				t_img;
 
 /*
-** A pair of indicies, used to define which points connect to form a line
-*/
-typedef struct	s_ipair
-{
-	size_t		a;
-	size_t		b;
-}				t_ipair;
-
-/*
 ** Stored variables related to drawing
 */
 typedef struct	s_draw
@@ -131,10 +141,9 @@ typedef struct	s_draw
 	t_vec		verts;
 	t_vec		lines;
 	t_vec		pts;
-	t_uint		red;
 	t_uint		col_pivot;
 	t_vec		colmap;
-	size_t		colmap_offset;
+	int			colmap_offset;
 }				t_draw;
 
 typedef struct	s_btn
@@ -187,7 +196,6 @@ int				draw(t_data *data);
 int				get_endian(void);
 t_uint			swap_endian(t_uint n);
 t_img			make_img(void *mlx_ptr, int w, int h);
-t_uint			make_colour(void *mlx_ptr, t_img *img, int colour);
 void			die(t_data data, char *msg);
 
 t_ip2d			ip2d_add(t_ip2d a, t_ip2d b);
@@ -197,14 +205,13 @@ int				ip2d_in_rect(t_ip2d p, size_t w, size_t h);
 size_t			ip2d_to_i(t_ip2d p, size_t w);
 
 t_uint	cmap_get(t_draw *draw, int height);
-t_byte	get_byte(t_uint a, t_byte n);
-t_uint	lerp_byte(float frac, t_uint a, t_uint b, t_byte n);
 t_uint	colour_lerp(float n, t_uint a, t_uint b);
 
 /*
 ** Image drawing
 */
 void			img_put_pixel(t_img *img, int x, int y, t_uint col);
+int				line_clip(t_p2d *a, t_p2d *b, float w, float h);
 void			img_put_line(t_img *img, t_p2d a, t_p2d b, t_uint col);
 void			img_clear(t_img *img);
 

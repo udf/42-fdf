@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 15:16:36 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 17:00:12 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 19:54:15 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static int	parse_hex_digit(char c, t_byte *out)
 {
 	c = (char)ft_tolower((char)c);
 	if (ft_isdigit(c))
-		*out = (t_byte)c - '0';
+		*out = (t_byte)(c - '0');
 	else if (c >= 'a' && c <= 'f')
-		*out = (t_byte)c - 'a' + 10;
+		*out = (t_byte)(c - 'a' + 10);
 	else
 		return (1);
 	return (0);
@@ -35,6 +35,8 @@ static char	*parse_colour(char *str, int *out_h, t_uint *colour)
 	if (!*str)
 		return ("Colour map: failed to find RGB hex");
 	str++;
+	if (!colour)
+		return (NULL);
 	*colour = 0;
 	i = 0;
 	while (*str && i < 6)
@@ -47,35 +49,35 @@ static char	*parse_colour(char *str, int *out_h, t_uint *colour)
 	}
 	if (i != 6)
 		return ("Colour map: not enough characters in RGB hex");
-	if (*str)
-		return ("Colour map: foreign characters after RGB hex");
-	return (NULL);
+	return (*str ? "Colour map: foreign characters after RGB hex" : NULL);
 }
 
 static char	*measure_cmap_size(t_data *data, int ac, char **av)
 {
 	char	*err;
 	int		height;
-	size_t	max_height;
-	t_uint	colour;
+	int		max_height;
+	int		min_height;
 	t_vec	*colmap;
 
-	max_height = 0;
+	if (ac <= 0)
+		return (NULL);
+	max_height = INT_MIN;
+	min_height = INT_MAX;
 	colmap = &data->draw.colmap;
 	while (ac > 0)
 	{
-		if ((err = parse_colour(av[ac - 1], &height, &colour)))
+		if ((err = parse_colour(av[ac - 1], &height, NULL)))
 			return (err);
-		if (height > (int)max_height)
-			max_height = (size_t)height;
-		if (-height > (int)data->draw.colmap_offset)
-			data->draw.colmap_offset = (size_t)(-height);
-		vec_reserve(colmap,
-			(size_t)(data->draw.colmap_offset + max_height + 1));
+		if (height > max_height)
+			max_height = height;
+		if (height < min_height)
+			min_height = height;
 		ac--;
 	}
+	data->draw.colmap_offset = -min_height;
+	vec_reserve(colmap, (size_t)(max_height - min_height + 1));
 	colmap->length = colmap->mem_size / colmap->type_size;
-	printf("measure: cmap vec is now at %zu elems\n", colmap->length);
 	return (NULL);
 }
 
@@ -124,9 +126,9 @@ char		*load_colour_map(t_data *data, int ac, char **av)
 
 	if ((err = measure_cmap_size(data, ac, av)))
 		return (err);
-	colour = 0xFFFFFFF;
+	colour = 0xFFFFFFFF;
 	vec_fill(&data->draw.colmap, &colour);
-	colour = 0xFFFFF;
+	colour = 0xFFFFFF;
 	if (data->draw.colmap.length == 0)
 		vec_append(&data->draw.colmap, &colour);
 	colmap = (t_uint *)data->draw.colmap.data;
@@ -134,7 +136,7 @@ char		*load_colour_map(t_data *data, int ac, char **av)
 	{
 		if ((err = parse_colour(av[ac - 1], &height, &colour)))
 			return (err);
-		colmap[height + (int)data->draw.colmap_offset] = colour;
+		colmap[height + data->draw.colmap_offset] = colour;
 		ac--;
 	}
 	interpolate_colour_map(colmap, data->draw.colmap.length);

@@ -6,16 +6,14 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 16:00:12 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 20:36:19 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 // TODO
-// COLOURS!!!
 // use depth information for culling?
-// check if need double buffer on osx
 
 static void	set_config(t_data *data)
 {
@@ -35,8 +33,7 @@ static void	set_draw(t_data *data)
 
 	draw = &data->draw;
 	vec_reserve(&draw->pts, draw->verts.length);
-	draw->red = make_colour(data->mlx.ptr, &data->img, 0xFF0000);
-	draw->col_pivot = make_colour(data->mlx.ptr, &data->img, 0xCC924A);
+	draw->col_pivot = 0xCC924A;
 	draw->dist = (float)(draw->map_w + draw->map_h / 2);
 	draw->pivot = (t_p3d){(float)draw->map_w / 2, (float)draw->map_h / 2, 0};
 	draw->rot.x = -45.0f;
@@ -84,7 +81,6 @@ int			main(int ac, char **av)
 	set_draw(&data);
 	if ((err = load_colour_map(&data, ac - 2, av + 2)))
 		die(data, err);
-	exit(12);
 	register_hooks(&data);
 	mlx_loop(data.mlx.ptr);
 	return (0);
