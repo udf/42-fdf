@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 13:42:14 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 15:25:51 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 // TODO
 // COLOURS!!!
 // use depth information for culling?
-// shift scroll broke?
-// check if need double buffer on osx
 
 static void	set_config(t_data *data)
 {

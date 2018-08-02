@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/27 15:44:47 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 13:59:57 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 14:46:05 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_p3d		p3d_norm(t_p3d a)
 {
 	const float mag = sqrtf(a.x * a.x + a.y * a.y + a.z * a.z);
 
-	if (!mag)
+	if (fpclassify(mag) == FP_ZERO)
 		return (t_p3d){0, 0, 0};
 	return (t_p3d){a.x / mag, a.y / mag, a.z / mag};
 }

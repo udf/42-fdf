@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 15:37:35 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 14:03:27 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 14:55:32 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_p3d	p3d_project(float distance, t_p2d r_size, t_p3d p_world,
 	t_p2d		p_screen;
 
 	p_camera = p3d_transform(p_world, mat_cam);
-	distance = distance ? distance : -p_camera.z;
+	distance = fpclassify(distance) != FP_ZERO ? distance : -p_camera.z;
 	p_screen.x = p_camera.x / distance;
 	p_screen.y = p_camera.y / distance;
 	if (ABS(p_screen.x) > c_size.x && ABS(p_screen.y) > c_size.y)
