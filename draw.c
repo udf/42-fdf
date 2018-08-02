@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 14:57:00 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 21:08:38 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,33 @@ void	mat_set_modelview(t_mat ret, float distance, t_p3d pivot, t_p3d rot)
 	mat_translate(ret, 0.0f, 0.0f, -distance);
 }
 
-void	img_put_line3(t_img *img, t_p3d a, t_p3d b, t_uint col)
+void	img_put_line3(t_img *img, t_p3d a, t_p3d b, t_colpair colours)
 {
-	//printf("%f %f\n", a.z, b.z);
-	img_put_line(img, (t_p2d){a.x, a.y}, (t_p2d){b.x, b.y}, col);
+	long	i;
+	long	steps;
+	t_p2d	p;
+	size_t	z_buf_i;
+	float	fract;
+
+	if (line_clip((t_p2d *)&a, (t_p2d *)&b, (float)img->w, (float)img->h))
+		return ;
+	a = (t_p3d){roundf(a.x), roundf(a.y), a.z};
+	b = (t_p3d){roundf(b.x), roundf(b.y), b.z};
+	steps = (long)MAX(ABS(b.x - a.x), ABS(b.y - a.y));
+	i = 0;
+	while (i < steps)
+	{
+		fract = (float)i / (float)steps;
+		p = p2d_roundf(t_p2d_lerp(fract, (t_p2d){a.x, a.y}, (t_p2d){b.x, b.y}));
+		z_buf_i = (size_t)((int)p.x + (int)p.y * img->w);
+		if (flerpf(fract, a.z, b.z) < img->z_buf[z_buf_i])
+		{
+			img_put_pixel(img, (int)roundf(p.x), (int)roundf(p.y),
+				colour_lerp(fract, colours.a, colours.b));
+			img->z_buf[z_buf_i] = flerpf(fract, a.z, b.z);
+		}
+		i++;
+	}
 }
 
 t_p3d	z_scale(t_p3d p, float scale)
@@ -61,6 +84,19 @@ void	draw_pivot(t_data *data)
 	}
 }
 
+void	init_z_buffer(t_img *img)
+{
+	const size_t	len = (size_t)(img->w * img->h);
+	size_t			i;
+
+	i = 0;
+	while (i < len)
+	{
+		img->z_buf[i] = INFINITY;
+		i++;
+	}
+}
+
 int		draw(t_data *data)
 {
 	size_t		i;
@@ -84,10 +120,14 @@ int		draw(t_data *data)
 	i = 0;
 	lines = (t_ipair *)data->draw.lines.data;
 	img_clear(&data->img);
+	init_z_buffer(&data->img);
 	while (i < data->draw.lines.length)
 	{
 		if (points[lines[i].a].z > 0 && points[lines[i].b].z > 0)
-			img_put_line3(&data->img, points[lines[i].a], points[lines[i].b], data->draw.red);
+			img_put_line3(&data->img, points[lines[i].a], points[lines[i].b],
+				(t_colpair){
+					cmap_get(&data->draw, (int)verts[lines[i].a].z),
+					cmap_get(&data->draw, (int)verts[lines[i].b].z)});
 		i++;
 	}
 	draw_pivot(data);

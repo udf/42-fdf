@@ -6,41 +6,26 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 15:25:13 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 13:39:58 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 21:09:03 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		get_endian(void)
+float	flerpf(float frac, float start, float end)
 {
-	t_uint		endian_test;
-	static int	endian = -1;
-
-	if (endian < 0)
-	{
-		endian_test = 0xAABBCCDD;
-		endian = *((unsigned char *)&endian_test) == 0xAA;
-	}
-	return (endian);
+	return (start + (end - start) * frac);
 }
 
-t_uint	swap_endian(t_uint n)
+t_p2d	t_p2d_lerp(float frac, t_p2d start, t_p2d end)
 {
-	return (((n << 24) & 0xFF000000) |
-			((n << 8) & 0xFF0000) |
-			((n >> 8) & 0xFF00) |
-			((n >> 24) & 0xFF));
+	return (t_p2d){start.x + (end.x - start.x) * frac,
+		start.y + (end.y - start.y) * frac};
 }
 
-t_uint	make_colour(void *mlx_ptr, t_img *img, int colour)
+t_p2d	p2d_roundf(t_p2d p)
 {
-	t_uint col;
-
-	col = mlx_get_color_value(mlx_ptr, colour);
-	if (img->endian != get_endian())
-		col = swap_endian(col);
-	return (col);
+	return (t_p2d){roundf(p.x), roundf(p.y)};
 }
 
 t_img	make_img(void *mlx_ptr, int w, int h)
@@ -54,6 +39,7 @@ t_img	make_img(void *mlx_ptr, int w, int h)
 		&img.bpp, &img.stride, &img.endian);
 	img.w = w;
 	img.h = h;
+	img.z_buf = malloc(sizeof(float) * (size_t)w * (size_t)h);
 	return (img);
 }
 
@@ -64,8 +50,10 @@ void	die(t_data data, char *msg)
 	vec_free(&data.draw.verts);
 	vec_free(&data.draw.pts);
 	vec_free(&data.draw.lines);
+	vec_free(&data.draw.colmap);
 	if (data.img.ptr)
 		mlx_destroy_image(data.mlx.ptr, data.img.ptr);
+	free(data.img.z_buf);
 	if (data.mlx.win)
 		mlx_destroy_window(data.mlx.ptr, data.mlx.win);
 	exit(0);

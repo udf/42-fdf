@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/01 21:59:08 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 14:56:39 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 20:25:39 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	point_clip(t_p2d *p, float w, float h, t_p2d m)
 	p->y = clamped.y;
 }
 
-static int	line_clip(t_p2d *a, t_p2d *b, float w, float h)
+int			line_clip(t_p2d *a, t_p2d *b, float w, float h)
 {
 	const t_p2d m = {(b->x - a->x) / (b->y - a->y),
 

@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 15:09:07 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 21:09:14 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <limits.h>
 # include "libft.h"
 # include "lib3d.h"
 # include "get_next_line.h"
@@ -72,6 +73,24 @@ typedef struct	s_ip2d
 }				t_ip2d;
 
 /*
+** A pair of unsigned ints (colours)
+*/
+typedef struct	s_colpair
+{
+	t_uint		a;
+	t_uint		b;
+}				t_colpair;
+
+/*
+** A pair of indicies, used to define which points connect to form a line
+*/
+typedef struct	s_ipair
+{
+	size_t		a;
+	size_t		b;
+}				t_ipair;
+
+/*
 ** Stores various mlx handles
 */
 typedef struct	s_mlx
@@ -94,6 +113,7 @@ typedef struct	s_cfg
 
 /*
 ** Stores an mlx image with the information from mlx_get_data_addr
+** as well as a z-buffer
 */
 typedef struct	s_img
 {
@@ -104,16 +124,8 @@ typedef struct	s_img
 	int			endian;
 	int			w;
 	int			h;
+	float		*z_buf;
 }				t_img;
-
-/*
-** A pair of indicies, used to define which points connect to form a line
-*/
-typedef struct	s_ipair
-{
-	size_t		a;
-	size_t		b;
-}				t_ipair;
 
 /*
 ** Stored variables related to drawing
@@ -131,8 +143,9 @@ typedef struct	s_draw
 	t_vec		verts;
 	t_vec		lines;
 	t_vec		pts;
-	t_uint		red;
 	t_uint		col_pivot;
+	t_vec		colmap;
+	int			colmap_offset;
 }				t_draw;
 
 typedef struct	s_btn
@@ -182,22 +195,25 @@ int				draw(t_data *data);
 /*
 ** Utilities
 */
-int				get_endian(void);
-t_uint			swap_endian(t_uint n);
+float			flerpf(float frac, float start, float end);
+t_p2d			t_p2d_lerp(float frac, t_p2d start, t_p2d end);
+t_p2d			p2d_roundf(t_p2d p);
+
 t_img			make_img(void *mlx_ptr, int w, int h);
-t_uint			make_colour(void *mlx_ptr, t_img *img, int colour);
 void			die(t_data data, char *msg);
 
 t_ip2d			ip2d_add(t_ip2d a, t_ip2d b);
-t_ip2d			ip2d_sub(t_ip2d a, t_ip2d b);
-int				ip2d_eq(t_ip2d a, t_ip2d b);
 int				ip2d_in_rect(t_ip2d p, size_t w, size_t h);
 size_t			ip2d_to_i(t_ip2d p, size_t w);
+
+t_uint	cmap_get(t_draw *draw, int height);
+t_uint	colour_lerp(float n, t_uint a, t_uint b);
 
 /*
 ** Image drawing
 */
 void			img_put_pixel(t_img *img, int x, int y, t_uint col);
+int				line_clip(t_p2d *a, t_p2d *b, float w, float h);
 void			img_put_line(t_img *img, t_p2d a, t_p2d b, t_uint col);
 void			img_clear(t_img *img);
 
@@ -205,5 +221,6 @@ void			img_clear(t_img *img);
 ** Map reading
 */
 char			*load_map(t_draw *draw, char *path);
+char			*load_colour_map(t_data *data, int ac, char **av);
 
 #endif
