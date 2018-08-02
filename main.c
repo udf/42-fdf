@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 21:11:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 21:11:26 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 21:27:13 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	set_draw(t_data *data)
 	draw->dist = (float)(draw->map_w + draw->map_h / 2);
 	draw->pivot = (t_p3d){(float)draw->map_w / 2, (float)draw->map_h / 2, 0};
 	draw->rot.x = -45.0f;
-	draw->z_scale = 1.0f;
+	draw->z_scale = 4.0f;
 }
 
 static void	register_hooks(t_data *data)
