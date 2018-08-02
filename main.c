@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:48:12 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/31 19:39:22 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 13:42:14 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 // TODO
 // COLOURS!!!
 // use depth information for culling?
+// shift scroll broke?
+// check if need double buffer on osx
 
-void set_config(t_data *data)
+static void	set_config(t_data *data)
 {
 	t_cfg *cfg;
 
@@ -28,7 +30,7 @@ void set_config(t_data *data)
 	cfg->zoom_mult = 5.0f;
 }
 
-void set_draw(t_data *data)
+static void	set_draw(t_data *data)
 {
 	t_draw *draw;
 
@@ -42,112 +44,25 @@ void set_draw(t_data *data)
 	draw->z_scale = 1.0f;
 }
 
-char		*read_vert_row(t_draw *draw, size_t y, char **split)
+static void	register_hooks(t_data *data)
 {
-	size_t	w;
-	t_p3d	p;
-
-	w = 0;
-	p.y = (float)y;
-	while (*split)
-	{
-		p.z = (float)ft_atoi(*split);
-		p.x = (float)w;
-		vec_append(&draw->verts, &p);
-		w++;
-		split++;
-	}
-	if (!draw->map_w)
-		draw->map_w = w;
-	if (w != draw->map_w || w == 0)
-		return ("Invalid number of heights in map");
-	return (NULL);
-}
-
-void	make_lines(t_draw *draw, t_ip2d start, t_ip2d dir)
-{
-	const size_t w = draw->map_w;
-	const size_t h = draw->map_h;
-	t_ip2d end;
-	t_ipair l;
-
-	while (ip2d_in_rect(ip2d_add(start, dir), w, h))
-	{
-		end = ip2d_add(start, dir);
-		if (!ip2d_in_rect(end, w, h))
-			return ;
-		l = (t_ipair){ip2d_to_i(start, w), ip2d_to_i(end, w)};
-		vec_append(&draw->lines, &l);
-		start = end;
-	}
-}
-
-void	make_grid_lines(t_draw *draw)
-{
-	t_ip2d	start;
-
-	start.x = 0;
-	start.y = 0;
-	while (start.y < (ssize_t)draw->map_h)
-	{
-		make_lines(draw, start, (t_ip2d){1, 0});
-		start.y++;
-	}
-	start.y = 0;
-	while (start.x < (ssize_t)draw->map_w)
-	{
-		make_lines(draw, start, (t_ip2d){0, 1});
-		start.x++;
-	}
-}
-
-char	*load_map(t_draw *draw, char *path)
-{
-	int fd;
-	char *line;
-	char **split;
-
-	if ((fd = open(path, O_RDONLY)) < 0)
-		return "Failed to open map file";
-	draw->map_h = 0;
-	while (get_next_line(fd, &line) == GNL_SUCCESS)
-	{
-		split = ft_strsplit(line, ' ');
-		free(line);
-		if (!split)
-			return "Failed to read map line";
-		line = read_vert_row(draw, draw->map_h, split);
-		ft_tabfree((void **)split);
-		if (line)
-			return (line);
-		draw->map_h++;
-	}
-	close(fd);
-	if (draw->map_h == 0)
-		return "Error: Map is empty";
-	make_grid_lines(draw);
-	return (NULL);
-}
-
-void	register_hooks(t_data *data)
-{
-	mlx_hook(data->mlx.win, KeyPress, KeyPressMask, on_keydown, data);
-	mlx_hook(data->mlx.win, KeyRelease, KeyReleaseMask, on_keyup, data);
-	mlx_hook(data->mlx.win, ButtonPress, ButtonPressMask, on_mousedown, data);
-	mlx_hook(data->mlx.win, ButtonRelease, ButtonReleaseMask, on_mouseup, data);
-	mlx_hook(data->mlx.win, MotionNotify, PointerMotionMask, on_mousemove, data);
+	mlx_hook(data->mlx.win, KEY_PRESS, 1L << 0, on_keydown, data);
+	mlx_hook(data->mlx.win, KEY_RELEASE, 1L << 1, on_keyup, data);
+	mlx_hook(data->mlx.win, BUTTON_PRESS, 1L << 2, on_mousedown, data);
+	mlx_hook(data->mlx.win, BUTTON_RELEASE, 1L << 3, on_mouseup, data);
+	mlx_hook(data->mlx.win, MOTION_NOTIFY, 1L << 6, on_mousemove, data);
 	mlx_expose_hook(data->mlx.win, draw, data);
 	mlx_loop_hook(data->mlx.ptr, loop, data);
 }
 
-void init_vectors(t_draw *draw)
+static void	init_vectors(t_draw *draw)
 {
 	draw->lines.type_size = sizeof(t_ipair);
 	draw->verts.type_size = sizeof(t_p3d);
 	draw->pts.type_size = sizeof(t_p3d);
 }
 
-int main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	t_data	data;
 	char	*err;

@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 15:25:13 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/07/30 19:44:55 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 13:39:58 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int		get_endian(void)
 {
-	unsigned int endian_test;
-	static int endian = -1;
+	t_uint		endian_test;
+	static int	endian = -1;
 
 	if (endian < 0)
 	{
@@ -25,19 +25,17 @@ int		get_endian(void)
 	return (endian);
 }
 
-unsigned int	swap_endian(unsigned int n)
+t_uint	swap_endian(t_uint n)
 {
-	return (
-		((n << 24) & 0xFF000000) |
-		((n << 8) &  0xFF0000) |
-		((n >> 8) &  0xFF00) |
-		((n >> 24) & 0xFF)
-	);
+	return (((n << 24) & 0xFF000000) |
+			((n << 8) & 0xFF0000) |
+			((n >> 8) & 0xFF00) |
+			((n >> 24) & 0xFF));
 }
 
-unsigned int	make_colour(void *mlx_ptr, t_img *img, int colour)
+t_uint	make_colour(void *mlx_ptr, t_img *img, int colour)
 {
-	unsigned int col;
+	t_uint col;
 
 	col = mlx_get_color_value(mlx_ptr, colour);
 	if (img->endian != get_endian())
@@ -72,5 +70,3 @@ void	die(t_data data, char *msg)
 		mlx_destroy_window(data.mlx.ptr, data.mlx.win);
 	exit(0);
 }
-
-

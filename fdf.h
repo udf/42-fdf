@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/01 14:41:35 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 13:47:50 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,57 +25,49 @@
 # include <stdio.h> // aaa
 # include <time.h> // aaa
 
-typedef unsigned int t_uint;
+typedef unsigned int	t_uint;
 
 /*
 ** Keycodes (because the header doesn't exist in OSX)
 ** mlx uses the codes found in /usr/include/keysymdef.h
 */
-# define KEY_Escape		0xff1b
-# define KEY_Left		0xff51
-# define KEY_Up			0xff52
-# define KEY_Right		0xff53
-# define KEY_Down		0xff54
-# define KEY_Shift		0xffe1
-# define KEY_Ctrl		0xffe3
-# define KEY_m			'm'
-# define KEY_w			'w'
-# define KEY_s			's'
-# define KEY_a			'a'
-# define KEY_d			'd'
-# define KEY_q			'q'
-# define KEY_e			'e'
-# define KEY_r			'r'
+# define KEY_ESC		0xff1b
+# define KEY_LEFT		0xff51
+# define KEY_UP			0xff52
+# define KEY_RIGHT		0xff53
+# define KEY_DOWN		0xff54
+# define KEY_SHIFT		0xffe1
+# define KEY_CTRL		0xffe3
+# define KEY_M			'm'
+# define KEY_W			'w'
+# define KEY_S			's'
+# define KEY_A			'a'
+# define KEY_D			'd'
+# define KEY_Q			'q'
+# define KEY_E			'e'
+# define KEY_R			'r'
 
-# define MOUSE_Left		1
-# define MOUSE_Mid		2
-# define MOUSE_Right	3
-# define MOUSE_Up		4
-# define MOUSE_Down		5
+# define MOUSE_LEFT		1
+# define MOUSE_UP		4
+# define MOUSE_DOWN		5
 
 # define KEY_MAX 0xffff
 # define MOUSE_MAX 10
 
 /*
-** Event codes and masks (because the header doesn't exist in OSX)
+** Event codes (because the header doesn't exist in OSX)
 ** mlx uses the codes found in /usr/include/X11/X.h
 */
-#define KeyPress		2
-#define KeyRelease		3
-#define ButtonPress		4
-#define ButtonRelease	5
-#define MotionNotify	6
-
-#define KeyPressMask			(1L<<0)
-#define KeyReleaseMask			(1L<<1)
-#define ButtonPressMask			(1L<<2)
-#define ButtonReleaseMask		(1L<<3)
-#define PointerMotionMask		(1L<<6)
+# define KEY_PRESS		2
+# define KEY_RELEASE	3
+# define BUTTON_PRESS	4
+# define BUTTON_RELEASE	5
+# define MOTION_NOTIFY	6
 
 /*
 ** A 2D point but with integers
 */
-typedef struct
+typedef struct	s_ip2d
 {
 	ssize_t		x;
 	ssize_t		y;
@@ -84,7 +76,7 @@ typedef struct
 /*
 ** Stores various mlx handles
 */
-typedef struct
+typedef struct	s_mlx
 {
 	void		*ptr;
 	void		*win;
@@ -93,7 +85,7 @@ typedef struct
 /*
 ** Stores configurable variables (runtime constants)
 */
-typedef struct
+typedef struct	s_cfg
 {
 	int			w;
 	int			h;
@@ -105,7 +97,7 @@ typedef struct
 /*
 ** Stores an mlx image with the information from mlx_get_data_addr
 */
-typedef struct
+typedef struct	s_img
 {
 	void		*ptr;
 	char		*data;
@@ -119,7 +111,7 @@ typedef struct
 /*
 ** A pair of indicies, used to define which points connect to form a line
 */
-typedef struct
+typedef struct	s_ipair
 {
 	size_t		a;
 	size_t		b;
@@ -128,10 +120,11 @@ typedef struct
 /*
 ** Stored variables related to drawing
 */
-typedef struct
+typedef struct	s_draw
 {
 	t_p3d		pivot;
 	t_p3d		rot;
+	t_p3d		m_rot;
 	float		dist;
 	float		z_scale;
 	char		ortho;
@@ -144,30 +137,30 @@ typedef struct
 	t_uint		col_pivot;
 }				t_draw;
 
-typedef struct
+typedef struct	s_btn
 {
 	char		down;
 	char		changed;
 	char		last;
 }				t_btn;
 
-typedef struct
+typedef struct	s_mouse
 {
 	int			x;
 	int			y;
 	t_btn		btn[MOUSE_MAX];
 }				t_mouse;
 
-typedef struct
+typedef struct	s_input
 {
 	t_mouse		m;
-	int			k[KEY_MAX];
+	char		k[KEY_MAX];
 }				t_input;
 
 /*
 ** Wraps all the data structures so they can be passed to subfunctions
 */
-typedef struct
+typedef struct	s_data
 {
 	const t_cfg	cfg;
 	t_mlx		mlx;
@@ -177,13 +170,14 @@ typedef struct
 }				t_data;
 
 /*
-** Events
+** Input processing and events
 */
 int				on_keyup(int key, t_data *data);
 int				on_keydown(int key, t_data *data);
 int				on_mouseup(int btn, int x, int y, t_data *data);
 int				on_mousedown(int btn, int x, int y, t_data *data);
 int				on_mousemove(int x, int y, t_data *data);
+
 int				loop(t_data *data);
 int				draw(t_data *data);
 
@@ -191,9 +185,9 @@ int				draw(t_data *data);
 ** Utilities
 */
 int				get_endian(void);
-unsigned int	swap_endian(unsigned int n);
+t_uint			swap_endian(t_uint n);
 t_img			make_img(void *mlx_ptr, int w, int h);
-unsigned int	make_colour(void *mlx_ptr, t_img *img, int colour);
+t_uint			make_colour(void *mlx_ptr, t_img *img, int colour);
 void			die(t_data data, char *msg);
 
 t_ip2d			ip2d_add(t_ip2d a, t_ip2d b);
@@ -205,9 +199,13 @@ size_t			ip2d_to_i(t_ip2d p, size_t w);
 /*
 ** Image drawing
 */
-void			img_put_pixel(t_img *img, int x, int y, unsigned int col);
-void			img_put_line(t_img *img, t_p2d a, t_p2d b, unsigned int col);
+void			img_put_pixel(t_img *img, int x, int y, t_uint col);
+void			img_put_line(t_img *img, t_p2d a, t_p2d b, t_uint col);
 void			img_clear(t_img *img);
 
+/*
+** Map reading
+*/
+char			*load_map(t_draw *draw, char *path);
 
 #endif

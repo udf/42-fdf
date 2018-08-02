@@ -6,33 +6,33 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 15:24:30 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/01 14:40:27 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/01 15:09:15 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int on_keydown(int key, t_data *data)
+int	on_keydown(int key, t_data *data)
 {
 	if (key < 0 || key > KEY_MAX)
-		return 0;
+		return (0);
 	data->input.k[key] = 1;
 	printf("keydown_hook: %d\n", key);
-	return 0;
+	return (0);
 }
 
-int on_keyup(int key, t_data *data)
+int	on_keyup(int key, t_data *data)
 {
 	if (key < 0 || key > KEY_MAX)
-		return 0;
+		return (0);
 	data->input.k[key] = 0;
 	printf("keyup_hook: %d\n", key);
-	if (key == KEY_m)
+	if (key == KEY_M)
 		data->draw.ortho = !data->draw.ortho;
-	if (key == KEY_r)
+	if (key == KEY_R)
 		data->draw.pivot = (t_p3d){(float)data->draw.map_w / 2,
 									(float)data->draw.map_h / 2, 0};
-	if (key == KEY_Escape)
+	if (key == KEY_ESC)
 		die(*data, "Quit pressed!");
-	return 0;
+	return (0);
 }
