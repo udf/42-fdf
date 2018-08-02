@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 15:24:30 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/01 15:09:15 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 21:43:26 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	on_keydown(int key, t_data *data)
 	if (key < 0 || key > KEY_MAX)
 		return (0);
 	data->input.k[key] = 1;
-	printf("keydown_hook: %d\n", key);
 	return (0);
 }
 
@@ -26,7 +25,6 @@ int	on_keyup(int key, t_data *data)
 	if (key < 0 || key > KEY_MAX)
 		return (0);
 	data->input.k[key] = 0;
-	printf("keyup_hook: %d\n", key);
 	if (key == KEY_M)
 		data->draw.ortho = !data->draw.ortho;
 	if (key == KEY_R)

@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 21:09:14 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 21:43:03 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@
 # include "lib3d.h"
 # include "get_next_line.h"
 # include "vec.h"
-
-# include <stdio.h> // aaa
-# include <time.h> // aaa
 
 typedef unsigned int	t_uint;
 

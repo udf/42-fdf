@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 15:16:36 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 19:54:15 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/02 21:43:34 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,6 @@ static void	interpolate_colour_map(t_uint *colmap, size_t length)
 			while (end < length && colmap[end] > 0xFFFFFF)
 				end++;
 		}
-		i++;
-	}
-
-	i = 0;
-	while (i < length)
-	{
-		printf("%zu: %08x\n", i, colmap[i]);
 		i++;
 	}
 }
