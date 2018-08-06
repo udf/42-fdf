@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 22:14:07 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/06 14:27:54 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/06 15:04:45 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,6 @@ void	img_put_line3(t_img *img, t_p3d a, t_p3d b, t_colpair colours)
 		}
 		i++;
 	}
-}
-
-t_p3d	z_scale(t_p3d p, float scale)
-{
-	return ((t_p3d){p.x, p.y, p.z / scale});
 }
 
 void	draw_pivot(t_data *data)
@@ -100,7 +95,7 @@ void	project(t_data *data)
 	while (i < data->draw.verts.length)
 	{
 		points[i] = p3d_project(data->draw.ortho ? data->draw.dist : 0,
-			raster_size, z_scale(verts[i], data->draw.z_scale), world_to_cam);
+		raster_size, P3D_ZSCALE(verts[i], data->draw.z_scale), world_to_cam);
 		i++;
 	}
 }

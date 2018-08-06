@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/06 12:50:03 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/06 14:56:10 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef unsigned int	t_uint;
 # define BUTTON_PRESS	4
 # define BUTTON_RELEASE	5
 # define MOTION_NOTIFY	6
+
+# define P3D_ZSCALE(p, v) (t_p3d){p.x, p.y, p.z / v}
 
 /*
 ** A 2D point but with integers
