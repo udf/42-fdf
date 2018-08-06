@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 21:12:22 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 15:09:49 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/06 14:26:51 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	on_mousedown(int btn, int x, int y, t_data *data)
 
 int	on_mouseup(int btn, int x, int y, t_data *data)
 {
-
 	if (btn < 0 || btn > MOUSE_MAX)
 		return (0);
 	data->input.m.x = x;

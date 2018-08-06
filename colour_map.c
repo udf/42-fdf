@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 15:16:36 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 21:43:34 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/06 14:26:43 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	interpolate_colour_map(t_uint *colmap, size_t length)
 	while (i < length)
 	{
 		if (end >= length)
-			break;
+			break ;
 		if (colmap[i] > 0xFFFFFF)
 			colmap[i] = colour_lerp((float)(i - start) / (float)(end - start),
 				colmap[start], colmap[end]);
