@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 08:32:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/05 16:49:13 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/06 12:27:32 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,6 @@ typedef struct	s_p3d
 	float		y;
 	float		z;
 }				t_p3d;
-
-/*
-** floating point/long ranges
-*/
-typedef struct	s_frange
-{
-	float		s;
-	float		e;
-}				t_frange;
-
-typedef struct	s_lrange
-{
-	long		s;
-	long		e;
-}				t_lrange;
 
 /*
 ** A transformation matrix
