@@ -6,7 +6,7 @@
 /*   By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 13:49:29 by mhoosen           #+#    #+#             */
-/*   Updated: 2018/08/02 21:43:03 by mhoosen          ###   ########.fr       */
+/*   Updated: 2018/08/06 12:41:46 by mhoosen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef unsigned int	t_uint;
 # define KEY_UP			126
 # define KEY_ALT		261
 # define KEY_CTRL		256
+# define KEY_SHIFT		257
 # define KEY_M			46
 # define KEY_W			13
 # define KEY_S			1
