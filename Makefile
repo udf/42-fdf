@@ -6,7 +6,7 @@
 #    By: mhoosen <mhoosen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/25 07:39:20 by mhoosen           #+#    #+#              #
-#    Updated: 2018/08/02 19:19:34 by mhoosen          ###   ########.fr        #
+#    Updated: 2018/08/06 12:28:43 by mhoosen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ hook_mouse.c image_draw.c loop.c draw.c
 NAME=fdf
 CFLAGS=-Wall -Wextra -Werror -Wconversion -O3
 INCLUDES=-I libft/includes -I lib3d/includes
-LIBS=-L libft/ -L lib3d/ -lft -l3d -lm -lmlx -lXext -lX11
+LIBS=-L libft/ -L lib3d/ -lft -l3d -lmlx -framework OpenGL -framework AppKit
 
 all: $(NAME)
 
