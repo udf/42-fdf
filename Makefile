@@ -15,7 +15,14 @@ hook_mouse.c image_draw.c loop.c draw.c
 NAME=fdf
 CFLAGS=-Wall -Wextra -Werror -Wconversion -O3
 INCLUDES=-I libft/includes -I lib3d/includes
-LIBS=-L libft/ -L lib3d/ -lft -l3d -lmlx -framework OpenGL -framework AppKit
+UNAME_S := $(shell uname -s)
+LIBS=-L libft/ -L lib3d/ -lft -l3d -lmlx
+ifeq ($(UNAME_S),Linux)
+	LIBS += -lXext -lX11
+endif
+ifeq ($(UNAME_S),Darwin)
+	LIBS +=	-framework OpenGL -framework AppKit
+endif
 
 all: $(NAME)
 
