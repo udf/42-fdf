@@ -16,7 +16,7 @@ NAME=fdf
 CFLAGS=-Wall -Wextra -Werror -Wconversion -O3
 INCLUDES=-I libft/includes -I lib3d/includes
 UNAME_S := $(shell uname -s)
-LIBS=-L libft/ -L lib3d/ -lft -l3d -lmlx
+LIBS=-L libft/ -L lib3d/ -lm -lft -l3d -lmlx
 ifeq ($(UNAME_S),Linux)
 	LIBS += -lXext -lX11
 endif
