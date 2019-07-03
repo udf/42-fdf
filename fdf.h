@@ -26,8 +26,11 @@
 typedef unsigned int	t_uint;
 
 /*
-** Keycodes
+** Keycodes (why the heck are they so retarded on OSX)
+** on Linux they can be found in /usr/include/keysymdef.h
+** or /usr/include/X11/keysymdef.h, depending on your system idk
 */
+# if __APPLE__
 # define KEY_ESC		53
 # define KEY_LEFT		123
 # define KEY_RIGHT		124
@@ -44,10 +47,27 @@ typedef unsigned int	t_uint;
 # define KEY_Q			12
 # define KEY_E			14
 # define KEY_R			15
-
+# elif __linux__
+# define KEY_ESC		0xff1b
+# define KEY_LEFT		0xff51
+# define KEY_UP			0xff52
+# define KEY_RIGHT		0xff53
+# define KEY_DOWN		0xff54
+# define KEY_SHIFT		0xffe1
+# define KEY_CTRL		0xffe3
+# define KEY_ALT		0xffe9
+# define KEY_M			'm'
+# define KEY_W			'w'
+# define KEY_S			's'
+# define KEY_A			'a'
+# define KEY_D			'd'
+# define KEY_Q			'q'
+# define KEY_E			'e'
+# define KEY_R			'r'
 # define MOUSE_LEFT		1
 # define MOUSE_UP		4
 # define MOUSE_DOWN		5
+# endif
 
 # define KEY_MAX 0xffff
 # define MOUSE_MAX 10
